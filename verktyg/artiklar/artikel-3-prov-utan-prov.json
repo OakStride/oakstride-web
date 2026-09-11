@@ -196,7 +196,7 @@
   {
    "typ": "p",
    "text": {
-    "sv": "Vi skriver det här öppet för att det är lätt att tro att den här sortens fel drabbar slarviga bygggen. Den gör den inte. Den drabbar bygggen där någon brytt sig tillräckligt för att skriva prov — och sedan litat på dem.",
+    "sv": "Vi skriver det här öppet för att det är lätt att tro att den här sortens fel drabbar slarviga byggen. Det gör den inte. Den drabbar byggen där någon brytt sig tillräckligt för att skriva prov — och sedan litat på dem.",
     "en": "We write this openly because it is tempting to assume this kind of fault only strikes sloppy builds. It does not. It strikes builds where somebody cared enough to write tests — and then trusted them."
    }
   }
