@@ -317,7 +317,7 @@
         <h2>1. The dry run that never touched the database</h2>
         <p>We have a tool that applies database changes, and it has a dry-run mode. I had just written a new change file and planned to dry-run it first, to see that it was syntactically sound before running it for real. Reasonable enough.</p>
         <p>The dry run prints <em>would run: filename</em> and turns green. It never starts the database client. It does not read a single line of the contents. It would have said exactly the same thing if the file had contained pure nonsense.</p>
-        <p>The mode is not broken — it does what it was built for, namely to show which files would run and in what order. The mistake was mine: I was about to let it answer a question it had never asked.</p>
+        <p>The mode is not broken — it does what it was built for, namely to show which files would run and in what order. The mistake was mine: I was about to let it answer a question it had never been asked.</p>
 
         <h2>2. The check that searched for itself</h2>
         <p>The day before, I had written another database change with what I described as a built-in safeguard: a post-check that would abort if the change had not taken effect. I highlighted it in the description. It felt responsible.</p>
