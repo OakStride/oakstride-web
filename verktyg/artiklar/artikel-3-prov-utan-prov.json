@@ -18,7 +18,7 @@
   "en": "Four tests that passed without testing anything"
  },
  "ingress": {
-  "sv": "Ett prov som inte provar någonting ser exakt likadant ut som ett prov som gick bra. På fem dagar hittade vi fyra sådana i vårt eget bygge. Det sista begick jag medan jag höll på att skriva den här texten.",
+  "sv": "Ett prov som inte provar någonting ser exakt likadant ut som ett prov som gick bra. På fem dagar hittade vi fyra sådana i vårt eget bygge. Det sista skrev jag själv medan jag höll på med den här texten.",
   "en": "A test that checks nothing looks exactly like a test that passed. In five days we found four of them in our own build. I committed the last one while writing this very article."
  },
  "block": [
@@ -60,8 +60,8 @@
   {
    "typ": "p",
    "text": {
-    "sv": "Läget är inte trasigt — det gör vad det är byggt för, nämligen att visa vilka filer som skulle köras och i vilken ordning. Felet var mitt: jag var på väg att låta det svara på en fråga det aldrig ställt.",
-    "en": "The mode is not broken — it does what it was built for, namely to show which files would run and in what order. The mistake was mine: I was about to let it answer a question it had never asked."
+    "sv": "Läget är inte trasigt — det gör vad det är byggt för, nämligen att visa vilka filer som skulle köras och i vilken ordning. Felet var mitt: jag var på väg att låta det svara på en fråga det aldrig fått.",
+    "en": "The mode is not broken — it does what it was built for, namely to show which files would run and in what order. The mistake was mine: I was about to let it answer a question it had never been asked."
    }
   },
   {
@@ -102,7 +102,7 @@
   {
    "typ": "p",
    "text": {
-    "sv": "En granskning gick igenom samtliga åtta körningar som verktyget någonsin haft. Ingen av dem innehåller en enda sådan markering. Koden ser rätt ut när man läser den. Ingen har sett den fyra. Skillnaden mellan <em>läst</em> och <em>sedd fungera</em> är hela poängen med den här texten.",
+    "sv": "En granskning gick igenom samtliga åtta körningar som verktyget någonsin haft. Ingen av dem innehåller en enda sådan markering. Koden ser rätt ut när man läser den. Ingen har sett den slå larm. Skillnaden mellan att ha <em>läst</em> koden och att ha <em>sett den fungera</em> är hela poängen med den här texten.",
     "en": "A review went through all eight runs the tool has ever had. Not one of them contains a single such annotation. The code looks right when you read it. Nobody has seen it fire. The difference between <em>read</em> and <em>seen working</em> is the whole point of this article."
    }
   },
@@ -137,7 +137,7 @@
   {
    "typ": "p",
    "text": {
-    "sv": "En granskare hittade det. Rättelsen var enkel: kör hela filen, inklusive den satsen, inuti en transaktion som rullas tillbaka efteråt. Då utövas allt, och ingenting blir kvar. Det tog fem minuter. Det som var svårt var inte fixen — det var att se att provet inte provade.",
+    "sv": "En granskare hittade det. Rättelsen var enkel: kör hela filen, inklusive den satsen, inuti en transaktion som rullas tillbaka efteråt. Då körs allt, och ingenting blir kvar. Det tog fem minuter. Det som var svårt var inte fixen — det var att se att provet inte provade.",
     "en": "A reviewer caught it. The fix was simple: run the whole file, including that statement, inside a transaction that is rolled back afterwards. Everything gets exercised, and nothing remains. It took five minutes. The hard part was never the fix — it was noticing that the test was not testing."
    }
   },
@@ -196,7 +196,7 @@
   {
    "typ": "p",
    "text": {
-    "sv": "Vi skriver det här öppet för att det är lätt att tro att den här sortens fel drabbar slarviga bygggen. Den gör den inte. Den drabbar bygggen där någon brytt sig tillräckligt för att skriva prov — och sedan litat på dem.",
+    "sv": "Vi skriver det här öppet för att det är lätt att tro att den här sortens fel bara drabbar slarviga byggen. Det gör det inte. Det drabbar byggen där någon brytt sig tillräckligt för att skriva prov — och sedan litat på dem.",
     "en": "We write this openly because it is tempting to assume this kind of fault only strikes sloppy builds. It does not. It strikes builds where somebody cared enough to write tests — and then trusted them."
    }
   }
