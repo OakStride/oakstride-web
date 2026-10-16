@@ -19,6 +19,7 @@ av repots riktiga flodessidor och kraver:
   e) dubbla kort for samma slug ger felkod
   f) slugen namns men inget tolkbart kort finns ger felkod (inget andra kort)
   g) sjalvprovet faller nar kortet skiljer sig fran specen
+  h) ett korrekt kort plus en handredigerad kopia (annat indrag) ger felkod
 
     python verktyg/prov-kort.py
 
@@ -90,7 +91,11 @@ def antal_kort(d, flode, lang):
 
 
 def ogonblick(d):
-    return dict((f, open(os.path.join(d, f), "rb").read()) for f in FLODEN)
+    """Byte-bild av flodena OCH artikelsidorna (om de finns) - "ingenting skrevs"
+    ska galla alla filer generatorn ror, inte bara korten."""
+    filer = list(FLODEN) + [SLUG[l] + ".html" for l in ("sv", "en")]
+    return dict((f, open(os.path.join(d, f), "rb").read())
+                for f in filer if os.path.exists(os.path.join(d, f)))
 
 
 class Prov(object):
@@ -184,10 +189,9 @@ def main():
         pr.krav("d) exit != 0", kod != 0, ut + felut)
         pr.krav("d) meddelandet sager att kortet inte gar att tolka",
                 "gar inte att tolka" in felut and "insights.html" in felut, felut)
-        pr.krav("d) ingen flodessida skrevs (inte heller insikter.html)", ogonblick(d) == snap)
-        pr.krav("d) ingen artikelsida skrevs",
-                not os.path.exists(os.path.join(d, SLUG["sv"] + ".html"))
-                or "En tredje ingress." not in las(os.path.join(d, SLUG["sv"] + ".html")))
+        pr.krav("d) bilden omfattar flodena och bada artikelsidorna", len(snap) == 4)
+        pr.krav("d) ingenting skrevs - varken floden (inte heller insikter.html) eller "
+                "artikelsidor", ogonblick(d) == snap)
         pr.krav("d) inget tyst 'fanns redan' i utdatan", "fanns redan" not in ut + felut)
 
         # e) dubbla kort
@@ -219,6 +223,28 @@ def main():
         pr.krav("f) meddelandet sager att inget andra kort laggs till",
                 "lagger inte till ett andra kort" in felut, felut)
         pr.krav("f) ingenting skrevs", ogonblick(d) == snap)
+
+        # h) granskningsfynd 1 (#33): ett korrekt kort PLUS en handredigerad kopia
+        # med annat indrag och gammal ingress. Forsta versionen skrev om det
+        # tolkbara kortet med exit 0 och lamnade kopian kvar med den gamla texten.
+        kort = s[start:slut]
+        kopia = "\n".join(("  " + r[2:]) if r.startswith("  ") else r
+                          for r in kort.replace("<li>%s</li>" % SPEC["ingress"]["en"],
+                                                "<li>Stale lead.</li>").split("\n"))
+        skriv(p_en, s[:slut] + kopia.replace("        <div", "      <div", 1) + s[slut:])
+        spec_h = json.loads(json.dumps(SPEC))
+        spec_h["ingress"] = {"sv": "Ny ingress h.", "en": "New lead h."}
+        skriv_spec(d, spec_h)
+        snap = ogonblick(d)
+        kod, ut, felut = kor(d)
+        print("--- h) korrekt kort plus handredigerad kopia med annat indrag\n" + felut.rstrip())
+        pr.krav("h) exit != 0", kod != 0, ut + felut)
+        pr.krav("h) meddelandet pekar pa mojlig dubblett",
+                "mojlig handredigerad dubblett" in felut, felut)
+        pr.krav("h) ingenting skrevs", ogonblick(d) == snap)
+        kod, ut, felut = kor(d, "--sjalvprov")
+        pr.krav("h) sjalvprovet faller ocksa", kod != 0 and "mojlig handredigerad dubblett" in ut,
+                ut)
     finally:
         shutil.rmtree(d, ignore_errors=True)
 

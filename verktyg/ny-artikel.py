@@ -237,7 +237,8 @@ def analysera_kort(s, spec, lang, flode, etikett, lastext):
     vantat = rendera_kort(spec, lang, etikett, lastext)
     lank = 'href="/%s"' % slug
     traffar = [m for m in KORT_BLOCK.finditer(s) if lank in m.group(0)]
-    namns = re.search(r'(?<![A-Za-z0-9_-])%s(?![A-Za-z0-9_-])' % re.escape(slug), s)
+    slug_re = re.compile(r'(?<![A-Za-z0-9_-])%s(?![A-Za-z0-9_-])' % re.escape(slug))
+    namns = slug_re.search(s)
 
     if not traffar:
         if namns:
@@ -250,11 +251,22 @@ def analysera_kort(s, spec, lang, flode, etikett, lastext):
         return "saknas", s.replace(ankare, vantat + ankare, 1), []
 
     if len(traffar) > 1:
-        raise KortFel("%s har %d kort for %s - dubbletter, vet inte vilket som ska galla"
+        raise KortFel("%s har %d kort som lankar till %s - dubbletter, eller en lank "
+                      "till artikeln inne i ett annat kort. Vet inte vilket som ska galla"
                       % (flode, len(traffar), slug))
 
     m = traffar[0]
     nu = m.group(0)
+    # Granskningsfynd 1 (#33): dubbletter raknades bara bland block i generatorns
+    # EGEN form. En handredigerad kopia med annat indrag syntes inte som dubblett,
+    # och det tolkbara kortet skrevs om med exit 0 medan kopian behol den gamla
+    # texten - precis den tystnad #32 handlar om. Varje omnamnande av slugen maste
+    # darfor ligga inne i det enda kort vi tolkar.
+    utanfor = len(slug_re.findall(s)) - len(slug_re.findall(nu))
+    if utanfor:
+        raise KortFel("%s namner %s %d gang(er) utanfor det kort som borjar pa rad %d - "
+                      "mojlig handredigerad dubblett. Ror inget forran det ar utrett"
+                      % (flode, slug, utanfor, s.count("\n", 0, m.start()) + 1))
     if nu == vantat:
         return "oforandrat", None, []
 
@@ -399,6 +411,7 @@ def sjalvprov():
         print("  FEL   hittade noll specar i verktyg/artiklar/ - ingenting provades")
         return 1
     fel = 0
+    sidor_ok = kort_ok = 0
     for p in specar:
         namn = os.path.basename(p)
         # 🔴 TILLAGT efter granskning (fynd R1). Har lag `json.load` och
@@ -428,7 +441,10 @@ def sjalvprov():
             fel = 1
             continue
         for lang in ("sv", "en"):
-            fel |= prova_kort(spec, lang, namn)
+            if prova_kort(spec, lang, namn):
+                fel = 1
+            else:
+                kort_ok += 1
             sida = os.path.join(ROT, spec["slug"][lang] + ".html")
             if not os.path.exists(sida):
                 # En specfil vars sida inte finns ar inte ett undantag att krascha
@@ -450,6 +466,7 @@ def sjalvprov():
                 fel = 1
                 continue
             if fick == vantat:
+                sidor_ok += 1
                 print("  ok    %s ar byte-identisk med repots fil" % spec["slug"][lang])
             else:
                 fel = 1
@@ -459,8 +476,10 @@ def sjalvprov():
                     if a[i] != b[i]:
                         print("        rad %d\n          repo: %s\n          mall: %s" % (i + 1, a[i][:100], b[i][:100]))
                         break
-    print("  %d specar provade, %d sidor och %d kort." % (len(specar), len(specar) * 2,
-                                                      len(specar) * 2))
+    # Raknat i loopen, inte len(specar)*2 - raden ska visa vad som faktiskt
+    # stammer, inte vad som var tankt att provas (tystnadsgranskningen #33).
+    print("  %d specar provade: %d av %d sidor och %d av %d kort stammer."
+          % (len(specar), sidor_ok, len(specar) * 2, kort_ok, len(specar) * 2))
     return fel
 
 
