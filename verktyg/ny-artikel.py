@@ -25,6 +25,14 @@ nagon lank pekar pa den:
   3. sjalva sidorna
 Generatorn gor alla tre.
 
+Kortet i flodessidan JAMFORS mot specen (issue #32), det narvarokontrolleras inte:
+saknas det laggs det in, stammer det rapporteras "oforandrat", skiljer det sig
+skrivs det om och rapporteras "uppdaterat" med de falt som andrats. Finns slugen
+men kortet inte gar att tolka sakert (dubbletter, handredigerad form) avbryter
+generatorn med felkod innan NAGON fil skrivits. Tidigare skrev den "fanns redan"
+med avslutkod 0, och en rattad ingress nadde aldrig kortet - den yta Google
+indexerar och som lasaren ser forst.
+
 Det fanns ett fjarde: sprakparlistan i .github/workflows/prov.yml. Den togs bort
 2026-09-06 (issue #18). Listan harleds nu ur specarna av verktyg/sprakpar.py, sa
 den har filen behover inte langre redigera provets egen konfiguration - och den
@@ -51,6 +59,7 @@ import glob
 import io
 import json
 import os
+import re
 import sys
 
 ROT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -166,34 +175,143 @@ def las(vag):
     return io.open(vag, encoding="utf-8").read()
 
 
-def koppla_in(spec):
-    """De tva stallen utover sjalva sidorna. Idempotent - hoppar over det som finns."""
-    gjort = []
-    for lang, flode, etikett, lastext in (
-            ("sv", "insikter.html", "Insikter", "Läs texten"),
-            ("en", "insights.html", "Insights", "Read the piece")):
-        p = os.path.join(ROT, flode)
-        s = las(p)
-        if spec["slug"][lang] in s:
-            gjort.append("%s: fanns redan" % flode)
-            continue
-        kort = (
-            '        <div class="card">\n'
-            '          <span class="tag">%s</span>\n'
-            '          <h3><a href="/%s">%s</a></h3>\n'
-            '          <ul>\n'
-            '            <li>%s</li>\n'
-            '          </ul>\n'
-            '          <a class="work-link" href="/%s">%s <span class="arrow">&rarr;</span></a>\n'
-            '          <span class="hours"><time datetime="%s">%s</time> &middot; %s</span>\n'
-            '        </div>\n' % (
-                etikett, spec["slug"][lang], spec["titel"][lang], spec["ingress"][lang],
-                spec["slug"][lang], lastext, spec["datum"], spec["datum_text"][lang], spec["lastid"]))
+FLODEN = (("sv", "insikter.html", "Insikter", "Läs texten"),
+          ("en", "insights.html", "Insights", "Read the piece"))
+
+# Ett korts block i flodessidan: fran `<div class="card">` till den `</div>` som
+# star pa SAMMA indrag. Inre rader ar djupare indragna och kan inte avsluta blocket.
+KORT_BLOCK = re.compile(r'^        <div class="card">\n.*?^        </div>\n', re.M | re.S)
+
+# Den exakta form generatorn sjalv skriver. Ett kort som INTE har den formen tolkas
+# inte - och skrivs inte heller om. Hellre ett rott stopp an att tyst skriva over
+# nagot som lagts till for hand i kortet.
+KORT_FORM = re.compile(
+    r'        <div class="card">\n'
+    r'          <span class="tag">(?P<etikett>[^<\n]*)</span>\n'
+    r'          <h3><a href="/(?P<slug>[^"\n]+)">(?P<titel>[^\n]*)</a></h3>\n'
+    r'          <ul>\n'
+    r'            <li>(?P<ingress>[^\n]*)</li>\n'
+    r'          </ul>\n'
+    r'          <a class="work-link" href="/(?P<slug2>[^"\n]+)">(?P<lastext>[^<\n]*)'
+    r' <span class="arrow">&rarr;</span></a>\n'
+    r'          <span class="hours"><time datetime="(?P<datum>[^"\n]*)">(?P<datum_text>[^<\n]*)'
+    r'</time> &middot; (?P<lastid>[^<\n]*)</span>\n'
+    r'        </div>\n\Z')
+
+KORT_FALT = ("etikett", "titel", "ingress", "lastext", "datum", "datum_text", "lastid")
+
+
+class KortFel(Exception):
+    """Kortet for slugen finns men gar inte att hantera sakert."""
+
+
+def rendera_kort(spec, lang, etikett, lastext):
+    return (
+        '        <div class="card">\n'
+        '          <span class="tag">%s</span>\n'
+        '          <h3><a href="/%s">%s</a></h3>\n'
+        '          <ul>\n'
+        '            <li>%s</li>\n'
+        '          </ul>\n'
+        '          <a class="work-link" href="/%s">%s <span class="arrow">&rarr;</span></a>\n'
+        '          <span class="hours"><time datetime="%s">%s</time> &middot; %s</span>\n'
+        '        </div>\n' % (
+            etikett, spec["slug"][lang], spec["titel"][lang], spec["ingress"][lang],
+            spec["slug"][lang], lastext, spec["datum"], spec["datum_text"][lang], spec["lastid"]))
+
+
+def analysera_kort(s, spec, lang, flode, etikett, lastext):
+    """Jamfor kortet for specens slug i flodessidan `s` mot specen.
+
+    Returnerar (lage, nytt_innehall, andrade_falt), dar lage ar:
+      "saknas"      - slugen namns inte alls i sidan; nytt_innehall har kortet inlagt
+      "oforandrat"  - kortet stammer redan med specen; nytt_innehall ar None
+      "uppdaterat"  - kortet skiljer sig; nytt_innehall har kortet omskrivet
+
+    Kastar KortFel om slugen finns men kortet inte gar att tolka sakert: inget kort
+    alls trots att slugen namns, fler an ett kort, eller ett kort med annan form an
+    den generatorn skriver. Issue #32: tidigare blev alla de fallen ett tyst
+    "fanns redan" med avslutkod 0 - och en rattad ingress nadde aldrig kortet.
+    """
+    slug = spec["slug"][lang]
+    vantat = rendera_kort(spec, lang, etikett, lastext)
+    lank = 'href="/%s"' % slug
+    traffar = [m for m in KORT_BLOCK.finditer(s) if lank in m.group(0)]
+    namns = re.search(r'(?<![A-Za-z0-9_-])%s(?![A-Za-z0-9_-])' % re.escape(slug), s)
+
+    if not traffar:
+        if namns:
+            raise KortFel("%s namner %s men inget kort med %s gar att tolka - lagger "
+                          "inte till ett andra kort utan att veta vad som star dar"
+                          % (flode, slug, lank))
         ankare = '        <div class="card">\n          <span class="tag">%s</span>' % etikett
-        if s.count(ankare) < 1:
-            raise SystemExit("AVBRYTER: hittade inget kortankare i %s" % flode)
-        skriv(p, s.replace(ankare, kort + ankare, 1))
-        gjort.append("%s: kort inlagt overst" % flode)
+        if ankare not in s:
+            raise KortFel("hittade inget kortankare i %s" % flode)
+        return "saknas", s.replace(ankare, vantat + ankare, 1), []
+
+    if len(traffar) > 1:
+        raise KortFel("%s har %d kort for %s - dubbletter, vet inte vilket som ska galla"
+                      % (flode, len(traffar), slug))
+
+    m = traffar[0]
+    nu = m.group(0)
+    if nu == vantat:
+        return "oforandrat", None, []
+
+    form = KORT_FORM.match(nu)
+    if not form or form.group("slug") != slug or form.group("slug2") != slug:
+        raise KortFel("kortet for %s i %s gar inte att tolka sakert (annan form an den "
+                      "generatorn skriver, borjar pa rad %d) - skriver inte over det"
+                      % (slug, flode, s.count("\n", 0, m.start()) + 1))
+    bor = KORT_FORM.match(vantat)
+    if not bor:
+        # Specens text bryter sjalv formen (t.ex. en radbrytning i ingressen). Da
+        # gar det nya kortet inte att lasa tillbaka nasta gang - stoppa nu.
+        raise KortFel("specens kort for %s gar inte att lasa tillbaka i samma form "
+                      "(radbrytning eller '<' i ett falt som inte tal det?)" % slug)
+    andrade = [f for f in KORT_FALT if form.group(f) != bor.group(f)]
+    if not andrade:
+        # Formen och alla falt stammer men texten skiljer anda - da forstar vi inte
+        # skillnaden, och da ska vi inte lata som att vi gor det.
+        raise KortFel("kortet for %s i %s skiljer sig fran specen pa ett satt som inte "
+                      "syns i nagot falt" % (slug, flode))
+    return "uppdaterat", s[:m.start()] + vantat + s[m.end():], andrade
+
+
+def planera_floden(spec):
+    """Rakna ut BADA flodessidorna innan nagot skrivs.
+
+    Regel 2: SV och EN hanteras lika. Gar det ena kortet inte att tolka ska det
+    andra inte heller ha skrivits - annars ligger flodena isar efter ett avbrott.
+    """
+    plan = []
+    for lang, flode, etikett, lastext in FLODEN:
+        p = os.path.join(ROT, flode)
+        try:
+            lage, nytt, andrade = analysera_kort(las(p), spec, lang, flode, etikett, lastext)
+        except KortFel as e:
+            raise SystemExit("AVBRYTER: %s. Ingenting skrevs." % e)
+        if lage == "saknas":
+            plan.append((p, nytt, "%s: kort inlagt overst" % flode))
+        elif lage == "oforandrat":
+            plan.append((p, None, "%s: kort oforandrat" % flode))
+        else:
+            plan.append((p, nytt, "%s: kort uppdaterat (%s)" % (flode, ", ".join(andrade))))
+    return plan
+
+
+def koppla_in(spec, plan=None):
+    """De tva stallen utover sjalva sidorna: flodessidornas kort och sitemap.
+
+    Korten JAMFORS mot specen i stallet for att narvarokontrolleras (issue #32):
+    saknas kortet laggs det in, stammer det ar det oforandrat, skiljer det sig skrivs
+    det om, och gar det inte att tolka avbryter generatorn med felkod.
+    """
+    gjort = []
+    for p, nytt, rad in (plan if plan is not None else planera_floden(spec)):
+        if nytt is not None:
+            skriv(p, nytt)
+        gjort.append(rad)
 
     p = os.path.join(ROT, "sitemap.xml")
     s = las(p)
@@ -225,6 +343,9 @@ def koppla_in(spec):
 
 
 def bygg(spec):
+    # Korten planeras FORE allt annat, sa att ett otolkbart kort stoppar korningen
+    # innan nagon fil - artikelsidorna inraknade - har skrivits.
+    plan = planera_floden(spec)
     for lang in ("sv", "en"):
         skriv(os.path.join(ROT, spec["slug"][lang] + ".html"), rendera(spec, lang))
     sv = las(os.path.join(ROT, spec["slug"]["sv"] + ".html")).count("\n")
@@ -233,7 +354,32 @@ def bygg(spec):
         raise SystemExit("AVBRYTER: sprakversionerna har %d respektive %d rader" % (sv, en))
     rader = ["%s.html och %s.html skrivna, %d rader var"
              % (spec["slug"]["sv"], spec["slug"]["en"], sv)]
-    return rader + koppla_in(spec)
+    return rader + koppla_in(spec, plan)
+
+
+def prova_kort(spec, lang, namn):
+    """Kortet i flodessidan ska stamma med specen - samma jamforelse, en yta bort.
+
+    Issue #32: sjalvprovet jamforde bara spec mot ARTIKELSIDAN och kunde darfor
+    strukturellt inte se ett kort med gammal ingress. Returnerar 1 vid fel.
+    """
+    lg, flode, etikett, lastext = [f for f in FLODEN if f[0] == lang][0]
+    slug = spec["slug"][lang]
+    try:
+        lage, _, andrade = analysera_kort(las(os.path.join(ROT, flode)), spec, lang,
+                                          flode, etikett, lastext)
+    except (KortFel, KeyError, TypeError) as e:
+        print("  FEL   kortet for %s: %s: %s" % (slug, type(e).__name__, e))
+        return 1
+    if lage == "oforandrat":
+        print("  ok    kortet for %s i %s stammer med specen" % (slug, flode))
+        return 0
+    if lage == "saknas":
+        print("  FEL   %s saknar kort for %s (spec %s)" % (flode, slug, namn))
+    else:
+        print("  FEL   kortet for %s i %s skiljer sig fran specen (%s) - kor "
+              "generatorn pa %s" % (slug, flode, ", ".join(andrade), namn))
+    return 1
 
 
 def sjalvprov():
@@ -282,6 +428,7 @@ def sjalvprov():
             fel = 1
             continue
         for lang in ("sv", "en"):
+            fel |= prova_kort(spec, lang, namn)
             sida = os.path.join(ROT, spec["slug"][lang] + ".html")
             if not os.path.exists(sida):
                 # En specfil vars sida inte finns ar inte ett undantag att krascha
@@ -312,7 +459,8 @@ def sjalvprov():
                     if a[i] != b[i]:
                         print("        rad %d\n          repo: %s\n          mall: %s" % (i + 1, a[i][:100], b[i][:100]))
                         break
-    print("  %d specar provade, %d sidor." % (len(specar), len(specar) * 2))
+    print("  %d specar provade, %d sidor och %d kort." % (len(specar), len(specar) * 2,
+                                                      len(specar) * 2))
     return fel
 
 

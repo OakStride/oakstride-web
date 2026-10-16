@@ -91,6 +91,10 @@ jobs:
           set -euo pipefail
           python3 verktyg/prov-sprakpar.py
           python3 verktyg/ny-artikel.py --sjalvprov
+          # Issue #32: generatorn hoppade tyst over ett kort som redan fanns, sa en
+          # rattad ingress nadde aldrig flodessidan. Provet kraver att kortet laggs
+          # in, lamnas orort, skrivs om - och att ett otolkbart kort ger felkod.
+          python3 verktyg/prov-kort.py
 
       # Regel 2: en andring pa den ena sprakversionen ska alltid speglas pa den andra.
       # Radantalskontrollen mater DIVERGENS och kan strukturellt inte se ett fel som
