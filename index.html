@@ -313,25 +313,47 @@
     .nav-cross-label{display:block;width:100%;padding:12px 2px 2px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);border-top:1px solid rgba(0,0,0,.08)}
   }
 </style>
+<link rel="stylesheet" href="/site.css?v=1">
 </head>
 <body>
 
-<header>
+<header class="site-header">
   <div class="wrap nav">
     <a class="logo" href="#top">Oak<span>Stride</span></a>
     <nav class="links" aria-label="Main navigation">
-      <a href="#services">Services</a>
+      <div class="nav-item">
+        <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="nav-panel">Services<span class="chev" aria-hidden="true"></span></button>
+        <div class="nav-panel" id="nav-panel" hidden>
+          <div class="nav-col">
+            <a class="nav-col-head" href="/">Advisory <span class="arrow">&rarr;</span></a>
+            <p>Interim leadership, digital and AI transformation, governance and PMO.</p>
+            <a href="/#services">What we do</a>
+            <a href="/#about">How we work</a>
+          </div>
+          <div class="nav-col">
+            <a class="nav-col-head" href="/studio">Studio <span class="arrow">&rarr;</span></a>
+            <p>Websites and online shops for small organisations, easy to run.</p>
+            <a href="/studio#work">Our work</a>
+            <a href="/studio#how">How it works</a>
+          </div>
+          <div class="nav-col">
+            <a class="nav-col-head" href="/it-management">IT Governance <span class="arrow">&rarr;</span></a>
+            <p>Part-time IT leadership for companies with 1&ndash;50 employees.</p>
+            <a href="/it-management#tjansten">The service</a>
+            <a href="/it-management#kontakt">Book a conversation</a>
+          </div>
+        </div>
+      </div>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
-      <a href="/sv" lang="sv">Svenska</a>
-      <span class="nav-div" aria-hidden="true"></span>
-      <span class="nav-cross-label">More from OakStride</span>
-      <a href="/studio" class="nav-cross">Studio <span class="arrow">&rarr;</span></a>
-      <a href="/it-management" class="nav-cross">IT Governance <span class="arrow">&rarr;</span></a>
+      <div class="nav-tools">
+        <span class="lang"><span class="lang-cur" aria-hidden="true">EN</span><span class="lang-sep" aria-hidden="true">/</span><a href="/sv" lang="sv" hreflang="sv" aria-label="Svenska">SV</a></span>
+      </div>
     </nav>
-      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
+<div class="nav-scrim" hidden></div>
 
 <main id="top">
   <div class="hero">
@@ -348,16 +370,66 @@
       <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
     </svg>
     <div class="wrap">
-      <p class="eyebrow">OakStride · Consulting &amp; Advisory</p>
-      <h1>Strategy is easy. Delivery is the hard part.</h1>
-      <p class="lead">OakStride is a Nordic consulting and advisory firm that helps organizations turn digital and AI strategy into working platforms, products and operating models — through hands-on leadership, disciplined prioritization and technology governance that holds.</p>
+      <p class="eyebrow">OakStride &middot; Consulting &amp; Advisory</p>
+      <h1 class="rot-h1">
+        <span aria-hidden="true"><span class="rot-fixed">From strategy to</span><span class="rot" data-rotator data-pause="rot-pause">
+          <span class="rot-word on">working platforms.</span>
+          <span class="rot-word">AI in production.</span>
+          <span class="rot-word">clear priorities.</span>
+          <span class="rot-word">governance that holds.</span>
+          <span class="rot-word">delivered roadmaps.</span>
+        </span></span>
+        <span class="sr-only">From strategy to working platforms, AI in production, clear priorities, governance that holds and delivered roadmaps.</span>
+      </h1>
+      <p class="lead">A Nordic consulting and advisory firm for digital, AI and technology leadership &mdash; close to delivery, from day one.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#contact">Get in touch <span class="arrow">&rarr;</span></a>
-        <a class="btn btn-ghost" href="#services">What we do <span class="arrow arrow-d">&darr;</span></a>
+        <a class="btn btn-primary btn-pill" href="#contact">Get in touch <span class="arrow">&rarr;</span></a>
+        <a class="hero-scroll" href="#services" aria-label="What we do"><span class="arrow arrow-d" aria-hidden="true">&darr;</span></a>
       </div>
+      <button class="rot-pause" id="rot-pause" type="button" data-pause-label="Pause animation" data-play="Play animation" hidden><span aria-hidden="true">&#10074;&#10074;</span><span data-label>Pause animation</span></button>
     </div>
   </div>
 
+  <section class="split" aria-labelledby="split-h">
+    <div class="wrap split-grid">
+      <div class="split-text">
+        <h2 id="split-h">Strategy is easy. Delivery is the hard part.</h2>
+        <p>OakStride is a Nordic consulting and advisory firm that helps organizations turn digital and AI strategy into working platforms, products and operating models &mdash; through hands-on leadership, disciplined prioritization and technology governance that holds.</p>
+      </div>
+      <!-- SIFFROR: vantar pa Fredrik. Blocket ar dolt tills han valt 3-4 sanna tal. Bara 15+ star pa sajten i dag. -->
+      <dl class="stats" hidden>
+        <div class="stat"><dd><span class="sr-only">15+</span><span aria-hidden="true"><span data-count="15">15</span>+</span></dd><dt>years of digital transformation and delivery leadership</dt></div>
+        <div class="stat"><dd><span class="sr-only">0</span><span aria-hidden="true"><span data-count="0">0</span></span></dd><dt>[number to be confirmed by Fredrik]</dt></div>
+        <div class="stat"><dd><span class="sr-only">0</span><span aria-hidden="true"><span data-count="0">0</span></span></dd><dt>[number to be confirmed by Fredrik]</dt></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="offers" aria-labelledby="offers-h">
+    <div class="wrap">
+      <h2 id="offers-h">Three ways we help</h2>
+      <div class="offer-grid">
+        <article class="offer">
+          <figure class="photo"><img src="images/photo-2.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+          <h3>Advisory</h3>
+          <p>Interim leadership, digital and AI transformation, governance and PMO for organisations in change.</p>
+          <a class="pill" href="#services">Explore Advisory <span class="arrow">&rarr;</span></a>
+        </article>
+        <article class="offer">
+          <figure class="photo"><img src="images/studio-team.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+          <h3>Studio</h3>
+          <p>Websites and online shops for small organisations, clubs and local businesses &mdash; easy to run.</p>
+          <a class="pill" href="/studio">Explore Studio <span class="arrow">&rarr;</span></a>
+        </article>
+        <article class="offer">
+          <figure class="photo"><img src="images/photo-7.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+          <h3>IT Governance</h3>
+          <p>Part-time IT leadership for companies with 1&ndash;50 employees, on a fixed number of hours per month.</p>
+          <a class="pill" href="/it-management">Explore IT Governance <span class="arrow">&rarr;</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
   <section class="alt" id="services">
     <div class="wrap">
       <h2>What we do</h2>
@@ -443,7 +515,7 @@
         </ul>
         <div class="facts">
           <div class="fact">
-            <div class="num">15+</div>
+            <div class="num"><span class="sr-only">15+</span><span aria-hidden="true"><span data-count="15">15</span>+</span></div>
             <div class="lbl">years of digital transformation and delivery leadership in complex, multi-stakeholder environments</div>
           </div>
           <div class="fact">
@@ -460,7 +532,7 @@
     </div>
   </section>
 
-  <section class="alt" id="contact">
+  <section class="alt" id="contact" style="--contact-photo:url('/images/photo-3.jpg')">
     <div class="wrap">
       <h2>Contact</h2>
       <div class="contact-grid">
@@ -475,12 +547,21 @@
   </section>
 </main>
 
-<footer>
-  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-    <span>© 2026 OakStride</span>
-    <span><a href="/it-management" style="color:inherit;">IT Governance</a> · <a href="/studio" style="color:inherit;">Studio</a> · oakstride.se · <a href="/privacy" style="color:inherit;">Privacy &amp; cookies</a></span>
+<!-- FOOTER:START - samma block pa alla sex sidor, andra i alla -->
+<footer class="site-footer">
+  <div class="wrap">
+    <a class="foot-logo" href="/">Oak<span>Stride</span></a>
+    <p class="foot-tag">Consulting, web studio and IT leadership from Stockholm.</p>
+    <div class="foot-grid">
+      <div><h2>Services</h2><ul><li><a href="/">Advisory</a></li><li><a href="/studio">Studio</a></li><li><a href="/it-management">IT Governance</a></li><li><a href="https://portal.oakstride.se">Customer portal</a></li></ul></div>
+      <div><h2>Contact</h2><ul><li><a href="mailto:info@oakstride.se">info@oakstride.se</a></li><li><a href="tel:+46702371704">+46 70 237 17 04</a></li></ul></div>
+      <div><h2>Legal</h2><ul><li><a href="/privacy">Privacy &amp; cookies</a></li></ul></div>
+      <div><h2>Language</h2><ul><li><a href="/sv" lang="sv" hreflang="sv">Svenska</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>&copy; 2026 OakStride AB &middot; oakstride.se</span><a href="#top">Back to top &uarr;</a></div>
   </div>
 </footer>
+<!-- FOOTER:END -->
 
 <script>
 (function(){
@@ -499,14 +580,6 @@
 })();
 </script>
 <script src="/oak-analytics.js?v=4" defer></script>
-<script>
-(function(){
-  var nav=document.querySelector('.nav'); if(!nav) return;
-  var btn=nav.querySelector('.nav-toggle'); if(!btn) return;
-  function set(o){ nav.classList.toggle('open',o); btn.setAttribute('aria-expanded',o?'true':'false'); }
-  btn.addEventListener('click',function(){ set(!nav.classList.contains('open')); });
-  nav.querySelectorAll('nav.links a').forEach(function(a){ a.addEventListener('click',function(){ set(false); }); });
-})();
-</script>
+<script src="/site.js?v=1" defer></script>
 </body>
 </html>
