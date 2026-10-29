@@ -124,8 +124,8 @@ jobs:
           set -euo pipefail
           fel=0
           # HARLEDD ur lang="en", inte uppraknad - en ny engelsk sida tacks
-          # automatiskt. Den gamla listan missade insights.html och
-          # insights-invisible-on-google.html nar de tillkom via main.
+          # automatiskt. Den gamla listan missade tva engelska sidor nar de
+          # tillkom via main (insikts-sidorna, borttagna 2026-10-29).
           for f in $(grep -l '<html lang="en">' *.html); do
             # Undantagen ar EGENNAMN och sprakvaxlarens egen text, inte en generell
             # uppmjukning. De star utskrivna sa att nasta person ser VAD som slapps
