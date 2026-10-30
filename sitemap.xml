@@ -41,4 +41,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/privacy"/>
     <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/integritet"/>
   </url>
+  <url>
+    <loc>https://oakstride.se/copilot-agents</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/copilot-agents"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/copilot-agenter"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/copilot-agenter</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/copilot-agents"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/copilot-agenter"/>
+  </url>
 </urlset>
