@@ -363,3 +363,31 @@ footer.site-footer {
 /* Kontaktfaltet: gradient i morka toner sa att vit text haller AA i varje punkt
    (#1f5fbf 6.1:1, #0e6b66 6.3:1, #5b3fc0 7.2:1 mot vitt). */
 .theme-copilot #kontakt { background: linear-gradient(120deg, #1f5fbf 0%, #0e6b66 48%, #5b3fc0 100%); }
+
+/* ---------- Copilot: exempel pa agenter (2026-10-30) ----------
+   3 + 2 pa desktop (sex spalter, korten spanner 2 resp 3), tva spalter pa
+   mellanbredd, en spalt pa mobil. Kortstilen ar sidans vanliga .card. */
+.agent-examples-head { margin: 64px 0 28px; max-width: 60ch; }
+.agent-examples-head h3 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+  letter-spacing: -0.015em; color: var(--pine); margin-bottom: 8px;
+}
+.agent-examples-head p { color: #3d443a; }
+.agent-examples { display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px; }
+.agent-examples .card { grid-column: span 2; }
+.agent-examples .card:nth-child(n+4) { grid-column: span 3; }
+.agent-examples .card h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.15rem; color: var(--pine); margin-bottom: 10px; }
+.agent-examples .card .sources {
+  margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: .76rem;
+  letter-spacing: .04em; color: #4c534a;
+}
+.theme-copilot .agent-examples .card:nth-child(1) .tag { color: var(--cp-blue-ink); }
+.theme-copilot .agent-examples .card:nth-child(2) .tag { color: var(--cp-teal-ink); }
+.theme-copilot .agent-examples .card:nth-child(3) .tag { color: var(--cp-pink-ink); }
+.theme-copilot .agent-examples .card:nth-child(4) .tag { color: var(--cp-violet-ink); }
+.theme-copilot .agent-examples .card:nth-child(5) .tag { color: var(--cp-amber-ink); }
+@media (max-width: 1000px) {
+  .agent-examples { grid-template-columns: repeat(2, 1fr); }
+  .agent-examples .card, .agent-examples .card:nth-child(n+4) { grid-column: auto; }
+}
+@media (max-width: 640px) { .agent-examples { grid-template-columns: 1fr; } }
