@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OakStride — Införande av Copilot, Copilot Studio och AI-agenter</title>
+<meta name="description" content="Vi hjälper er att införa Copilot på ett säkert sätt och bygga agenter i Copilot Studio — med behörigheter, data och styrning på plats från början.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://oakstride.se/copilot-agenter">
+<link rel="alternate" hreflang="en" href="https://oakstride.se/copilot-agents">
+<link rel="alternate" hreflang="sv" href="https://oakstride.se/copilot-agenter">
+<link rel="alternate" hreflang="x-default" href="https://oakstride.se/copilot-agents">
+<meta property="og:site_name" content="OakStride">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://oakstride.se/copilot-agenter">
+<meta property="og:title" content="OakStride — Införande av Copilot, Copilot Studio och AI-agenter">
+<meta property="og:description" content="Rådgivning, konfiguration, agentbygge och utbildning för Microsoft Copilot och Copilot Studio — med behörigheter och data under kontroll.">
+<meta property="og:image" content="https://oakstride.se/images/photo-2.jpg">
+<meta property="og:locale" content="sv_SE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OakStride — Införande av Copilot, Copilot Studio och AI-agenter">
+<meta name="twitter:description" content="Rådgivning, konfiguration, agentbygge och utbildning för Microsoft Copilot och Copilot Studio — med behörigheter och data under kontroll.">
+<meta name="twitter:image" content="https://oakstride.se/images/photo-2.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "OakStride Copilot & agenter",
+  "serviceType": "Införande av Microsoft Copilot och Copilot Studio",
+  "url": "https://oakstride.se/copilot-agenter",
+  "areaServed": "Sweden",
+  "provider": {
+    "@type": "Organization",
+    "@id": "https://oakstride.se/#org",
+    "name": "OakStride AB",
+    "url": "https://oakstride.se/",
+    "email": "info@oakstride.se"
+  },
+  "description": "Rådgivning och styrning, konfiguration i er miljö, design och bygge av agenter samt utbildning för Microsoft Copilot och Copilot Studio."
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #21261f;
+    --pine: #1e3a2f;
+    --moss: #4a6b57;
+    --birch: #e9eeec;
+    --paper: #f5f7f6;
+    --acorn: #2f6486;
+    --line: #d8dcd2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(245,247,246,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; padding-bottom: 18px; }
+  .logo {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;
+    color: var(--pine); text-decoration: none;
+  }
+  .logo span { color: var(--acorn); }
+  .logo small { display:block; font-family:'IBM Plex Mono',monospace; font-weight:400; font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase; color: var(--moss); }
+  nav.links { display: flex; gap: 28px; }
+  nav.links a { color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500; white-space: nowrap; }
+  nav.links a:hover, nav.links a:focus-visible { color: var(--moss); }
+  a:focus-visible { outline: 2px solid var(--acorn); outline-offset: 3px; border-radius: 2px; }
+
+  .hero {
+    position: relative; overflow: hidden; padding: 100px 0 92px;
+    background: var(--pine);
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background: url('images/photo-2.jpg') center/cover no-repeat;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(rgba(16,29,23,0.82), rgba(16,29,23,0.74));
+  }
+  .hero .rings { z-index: 2; }
+  .hero .wrap { position: relative; z-index: 3; }
+  .rings { position: absolute; right: -140px; top: 50%; transform: translateY(-50%); width: 520px; height: 520px; opacity: 0.9; pointer-events: none; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #a9c7b6; margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    line-height: 1.07; letter-spacing: -0.03em; font-weight: 700;
+    color: #f5f7f6; max-width: 18ch;
+  }
+  .hero p.lead { margin-top: 26px; max-width: 56ch; font-size: 1.12rem; color: #d7e0da; }
+  .cta-row { margin-top: 38px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem; padding: 14px 28px; border-radius: 4px; }
+  .btn-primary { background: var(--paper); color: var(--pine); }
+  .btn-primary:hover, .btn-primary:focus-visible { background: #dfe6e1; }
+  .btn-ghost { color: #f5f7f6; border: 1px solid #9fc0d4; }
+  .btn-ghost:hover, .btn-ghost:focus-visible { background: rgba(255,255,255,0.10); }
+
+  section { padding: 80px 0; }
+  section.alt { background: var(--birch); }
+  h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem); letter-spacing: -0.02em;
+    color: var(--pine); margin-bottom: 12px;
+  }
+  .section-intro { max-width: 60ch; color: #3d443a; margin-bottom: 44px; }
+
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 30px 26px; }
+  section.alt .card { background: #fdfdfb; }
+  .card h3 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.15rem; color: var(--pine); margin-bottom: 10px; }
+  .card p, .card li { font-size: 0.96rem; color: #3d443a; }
+  .card .tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--acorn);
+    display: block; margin-bottom: 12px;
+  }
+  .card ul { list-style: none; margin-top: 14px; display: grid; gap: 8px; }
+  .card ul li { padding-left: 22px; position: relative; }
+  .card ul li::before { content: ""; position: absolute; left: 0; top: 9px; width: 10px; height: 10px; border: 2px solid var(--acorn); border-radius: 50%; }
+  .card .hours { font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color: var(--moss); margin-top: 16px; display:block; }
+  .card.featured { border: 2px solid var(--acorn); position: relative; }
+  .card.featured .badge {
+    position:absolute; top:-12px; left:26px; background: var(--acorn); color: #fff;
+    font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase;
+    padding: 4px 10px; border-radius: 3px;
+  }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; counter-reset: step; }
+  .step { border-left: 3px solid var(--acorn); padding-left: 20px; }
+  .step h3 { font-family:'Bricolage Grotesque',sans-serif; font-size: 1.1rem; color: var(--pine); margin-bottom: 8px; }
+  .step p { font-size: 0.95rem; color: #3d443a; }
+  .step .n { font-family:'IBM Plex Mono',monospace; font-size: 0.78rem; letter-spacing: 0.12em; color: var(--moss); display:block; margin-bottom: 8px; }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .contact-list { list-style: none; display: grid; gap: 16px; }
+  .contact-list a { color: var(--pine); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--acorn); }
+  .contact-list a:hover { color: var(--moss); }
+  .contact-list .k {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--moss);
+    display: block; margin-bottom: 4px;
+  }
+
+  .photo { margin: 0; border-radius: 6px; overflow: hidden; position: relative; background: var(--birch); }
+  .photo img { display: block; width: 100%; height: 300px; object-fit: cover; filter: grayscale(30%) saturate(88%); }
+  .photo::after { content: ""; position: absolute; inset: 0; background: #1e3a2f; opacity: 0.10; pointer-events: none; }
+  .photo-wide { margin: 0 0 44px; }
+  @media (max-width: 900px) { .photo img { height: 210px; } }
+  footer { border-top: 1px solid var(--line); padding: 32px 0; font-size: 0.88rem; color: #5a6157; }
+
+  @media (max-width: 900px) {
+    .grid3, .grid2, .steps, .contact-grid { grid-template-columns: 1fr; }
+    .rings { display: none; }
+    nav.links { gap: 18px; }
+    section { padding: 56px 0; }
+    .hero { padding: 60px 0 52px; }
+  }
+
+  @media (max-width: 640px) {
+    .nav { flex-wrap: wrap; row-gap: 6px; padding-top: 12px; padding-bottom: 12px; }
+    nav.links { width: 100%; justify-content: space-between; gap: 6px 10px; flex-wrap: wrap; }
+    nav.links a { font-size: 0.88rem; }
+  }
+
+  /* Liveliness: motion (only when user allows it) */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .card, .step, .fact { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 14px 30px rgba(30,58,47,.13); border-color: var(--moss); }
+    .btn { transition: transform .15s ease, background .2s ease, color .2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .hero .wrap > * { animation: heroIn .8s ease both; }
+    .hero .wrap > *:nth-child(2) { animation-delay: .12s; }
+    .hero .wrap > *:nth-child(3) { animation-delay: .24s; }
+    .hero .wrap > *:nth-child(4) { animation-delay: .36s; }
+    @keyframes heroIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    .rings { animation: ringbreathe 9s ease-in-out infinite; }
+    @keyframes ringbreathe { 50% { transform: translateY(-50%) scale(1.045); } }
+    .hero::before { animation: kenburns 36s ease-in-out infinite alternate; }
+    @keyframes kenburns { to { transform: scale(1.08); } }
+    .photo img { transition: transform .6s ease; }
+    .photo:hover img { transform: scale(1.045); }
+    .card .icon svg { transition: transform .3s ease; }
+    .card:hover .icon svg { transform: scale(1.12) rotate(-6deg); }
+    .btn .arrow, nav.links a .arrow, .work-link .arrow { display: inline-block; transition: transform .2s ease; }
+    .btn:hover .arrow, .btn:focus-visible .arrow, nav.links a:hover .arrow, .work-link:hover .arrow { transform: translateX(3px); }
+    .btn:hover .arrow-d, .btn:focus-visible .arrow-d { transform: translateY(3px); }
+  }
+
+  /* Mobilmeny (hamburgare) — samma funktion som XLENT */
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:10px;margin:-10px -8px;color:var(--ink,currentColor);line-height:0}
+  .nav-toggle span{display:block;width:24px;height:2px;background:currentColor;border-radius:2px;transition:transform .25s ease,opacity .2s ease}
+  .nav-toggle span + span{margin-top:5px}
+  .nav.open .nav-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav.open .nav-toggle span:nth-child(2){opacity:0}
+  .nav.open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  @media (max-width:640px){
+    .nav{flex-wrap:wrap;align-items:center}
+    .nav-toggle{display:block;order:2}
+    nav.links{display:none;width:100%;order:3;flex-direction:column;gap:0;padding:6px 0 2px}
+    .nav.open nav.links{display:flex}
+    nav.links a{padding:12px 2px;font-size:1rem;border-top:1px solid rgba(0,0,0,.08)}
+  }
+  /* Tydliggör länkar som leder till andra OakStride-sidor */
+  .nav-div{display:inline-block;width:1px;height:18px;background:var(--line);align-self:center;margin:0 2px}
+  .nav-cross-label{display:none}
+  .nav-cross .arrow{display:inline-block}
+  @media (max-width:640px){
+    .nav-div{display:none}
+    .nav-cross-label{display:block;width:100%;padding:12px 2px 2px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);border-top:1px solid rgba(0,0,0,.08)}
+  }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="/site.css?v=3">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="logo" href="/sv">Oak<span>Stride</span><small>Copilot &amp; agenter</small></a>
+    <nav class="links" aria-label="Huvudmeny">
+      <div class="nav-item">
+        <a class="nav-trigger" href="#tjansten" data-panel="nav-panel">Tjänster<span class="chev" aria-hidden="true"></span></a>
+        <div class="nav-panel" id="nav-panel">
+          <div class="nav-col">
+            <a class="nav-col-head" href="/sv">Advisory <span class="arrow">&rarr;</span></a>
+            <p>Interimsledarskap, digital- och AI-transformation, styrning och PMO.</p>
+            <a href="/sv#services">Vad vi gör</a>
+            <a href="/sv#about">Så arbetar vi</a>
+            <a href="/copilot-agenter" aria-current="page">Copilot &amp; agenter</a>
+          </div>
+          <div class="nav-col">
+            <a class="nav-col-head" href="/webbstudio">Studio <span class="arrow">&rarr;</span></a>
+            <p>Webbplatser och webbutiker för mindre organisationer, lätta att driva.</p>
+            <a href="/webbstudio#arbete">Vårt arbete</a>
+            <a href="/webbstudio#sa-funkar-det">Så funkar det</a>
+          </div>
+          <div class="nav-col">
+            <a class="nav-col-head" href="/it-chef">IT Ledning <span class="arrow">&rarr;</span></a>
+            <p>IT-ledning på deltid för bolag med 1&ndash;50 anställda.</p>
+            <a href="/it-chef#tjansten">Tjänsten</a>
+            <a href="/it-chef#kontakt">Boka ett samtal</a>
+          </div>
+        </div>
+      </div>
+      <a href="#tjansten">Vad vi gör</a>
+      <a href="#kontakt">Kontakt</a>
+      <div class="nav-tools">
+        <span class="lang"><span class="lang-cur" aria-hidden="true">SV</span><span class="lang-sep" aria-hidden="true">/</span><a href="/copilot-agents" lang="en" hreflang="en" aria-label="English">EN</a></span>
+      </div>
+    </nav>
+    <button class="nav-toggle" type="button" aria-label="Meny" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-scrim" hidden></div>
+
+<main id="top">
+  <div class="hero">
+    <svg class="rings" viewBox="0 0 560 560" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#9fc0d4" stroke-opacity="0.22">
+        <circle cx="280" cy="280" r="40" stroke-width="1.5"/>
+        <circle cx="280" cy="280" r="78" stroke-width="1"/>
+        <circle cx="280" cy="280" r="112" stroke-width="1.5"/>
+        <circle cx="280" cy="280" r="150" stroke-width="1"/>
+        <circle cx="280" cy="280" r="186" stroke-width="1.5"/>
+        <circle cx="280" cy="280" r="224" stroke-width="1"/>
+        <circle cx="280" cy="280" r="258" stroke-width="1.5"/>
+      </g>
+      <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
+    </svg>
+    <div class="wrap">
+      <p class="eyebrow">OakStride &middot; Copilot &amp; agenter</p>
+      <h1 class="rot-h1">
+        <span aria-hidden="true"><span class="rot-fixed">Från Copilot-licens till</span><span class="rot" data-rotator>
+          <span class="rot-word on">arbete som går fortare.</span>
+          <span class="rot-word">agenter som gör jobbet.</span>
+          <span class="rot-word">styrning som håller.</span>
+        </span></span>
+        <span class="sr-only">Från Copilot-licens till arbete som går fortare, agenter som gör jobbet och styrning som håller.</span>
+      </h1>
+      <p class="lead">Vi hjälper större organisationer och mindre bolag att införa Microsoft Copilot och Copilot Studio &mdash; och att bygga agenter som löser verkliga uppgifter, med behörigheter och data under kontroll.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-pill" href="#kontakt">Boka ett samtal <span class="arrow">&rarr;</span></a>
+        <a class="hero-scroll" href="#tjansten" aria-label="Vad vi gör"><span class="arrow arrow-d" aria-hidden="true">&darr;</span></a>
+      </div>
+    </div>
+  </div>
+
+  <section class="split" aria-labelledby="problem-h">
+    <div class="wrap split-grid">
+      <div class="split-text">
+        <h2 id="problem-h">Licensen är det lätta.</h2>
+        <p>Copilot svarar utifrån det varje medarbetare redan har behörighet till. Det är styrkan, men det betyder också att gamla delningar, öppna mappar och omärkta dokument plötsligt blir lätta att hitta. Därför avgörs ett införande sällan av tekniken. Det avgörs av ordning i behörigheterna, tydliga riktlinjer och att människor faktiskt ändrar sitt sätt att arbeta.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="tjansten">
+    <div class="wrap">
+      <h2>Vad vi hjälper er med</h2>
+      <p class="section-intro">Vi ger råd, konfigurerar i er miljö, designar och bygger agenter och håller utbildningar. Vi tar er från första frågan till ett införande som används och håller &mdash; och vidare till agenter när grunden finns.</p>
+      <div class="grid2">
+        <div class="card">
+          <span class="tag">Förbered</span>
+          <h3>Redo för Copilot</h3>
+          <ul>
+            <li>Licensråd och genomgång av behörigheter och hur data delas i dag</li>
+            <li>Kartläggning av var överdelning och känsliga dokument finns</li>
+            <li>Prioriterade användningsfall som ger märkbar nytta</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Inför</span>
+          <h3>Pilot och utrullning</h3>
+          <ul>
+            <li>En avgränsad pilot med en grupp som får tid och stöd att prova</li>
+            <li>Utbildningar för era medarbetare och enkla riktlinjer för vad som är okej att använda Copilot till</li>
+            <li>Uppföljning av vad som faktiskt används, och beslut om nästa steg</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Styr</span>
+          <h3>Styrning som håller</h3>
+          <ul>
+            <li>Riktlinjer och ansvar för AI-användning, kopplade till er befintliga IT-styrning</li>
+            <li>Rådgivning och konfiguration i er miljö: behörigheter, SharePoint och Microsoft Purview för dataskydd och spårbarhet</li>
+            <li>Tydliga regler för vem som får bygga och publicera agenter</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Bygg</span>
+          <h3>Agenter i Copilot Studio</h3>
+          <ul>
+            <li>Vi designar och bygger agenten, från användningsfall till en agent som är kopplad till rätt data</li>
+            <li>Behörigheter, inloggning och kopplingar som följer er säkerhetsmodell</li>
+            <li>Ägarskap, förvaltning och uppföljning efter att agenten satts i drift</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Så kommer ni igång</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="n">Steg 1</span>
+          <h3>Workshop</h3>
+          <p>Vi går igenom era mål, er Microsoft 365-miljö och var Copilot kan göra skillnad. Ni får en prioriterad lista med användningsfall och en bild av vad som behöver vara på plats först &mdash; oavsett om ni fortsätter med oss.</p>
+        </div>
+        <div class="step">
+          <span class="n">Steg 2</span>
+          <h3>Förberedelse och pilot</h3>
+          <p>Vi går igenom behörigheter och delning, sätter riktlinjerna och kör en avgränsad pilot med en mindre grupp. Ni ser vad som fungerar innan fler licenser köps.</p>
+        </div>
+        <div class="step">
+          <span class="n">Steg 3</span>
+          <h3>Utrullning och förvaltning</h3>
+          <p>Vi breddar till fler användare, utbildar och följer upp. Behovet av egna agenter blir tydligt här, och då bygger vi dem på en grund som redan håller.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <h2>Kontroll först, fart sedan</h2>
+      <p class="section-intro">Microsoft rekommenderar själva att ordning på data och behörigheter är på plats före en bred utrullning. Vi gör det till en del av införandet, inte en efterhandskontroll.</p>
+      <div class="grid2">
+        <div class="card">
+          <h3>Data och behörigheter</h3>
+          <p>Vi hjälper er att hitta överdelade platser och dokument, begränsa åtkomst där det behövs och märka det som är känsligt, så att Copilot bara når det den ska.</p>
+        </div>
+        <div class="card">
+          <h3>Agenter under kontroll</h3>
+          <p>Agenter byggs i miljöer med tydliga gränser &mdash; vilka kopplingar som är tillåtna, hur användare loggar in och vem som får publicera. Varje agent har en ägare och följs upp som vilken annan tjänst som helst.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="agents-h">
+    <div class="wrap">
+      <div class="split-text">
+        <h2 id="agents-h">Agenter som gör jobbet</h2>
+        <div class="split-body">
+          <p>En agent är mer än en chattbot. Den kan hämta svar ur era egna dokument, följa ett flöde i flera steg och utföra uppgifter i de system ni redan använder. Vi börjar med en avgränsad uppgift där nyttan går att mäta, bygger agenten i Copilot Studio, testar den med de som ska använda den och sätter den i drift med ägare, behörigheter och uppföljning på plats.</p>
+          <p>Vi arbetar själva med AI-agenter varje dag. Därför vet vi var de är starka, var de behöver gränser och vad som krävs för att förvalta dem.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <h2>Oberoende, med erfarenhet</h2>
+      <p class="section-intro">Vi har erfarenhet från större organisationer och arbetar med både större organisationer och mindre bolag. Vi är oberoende: vi säljer inga licenser, men vi ger råd om vilka licenser ni behöver och har inget intresse av att ni köper fler än så.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="faq-h">
+    <div class="wrap">
+      <h2 id="faq-h">Vanliga frågor</h2>
+      <div class="faq">
+        <details>
+          <summary>Behöver vi ordna något innan vi köper licenser?</summary>
+          <p>Ja, oftast. Copilot når allt som varje användare har behörighet till, så det lönar sig att se över delning och känsliga dokument först. Vi börjar där.</p>
+        </details>
+        <details>
+          <summary>Vad är skillnaden mellan Copilot och Copilot Studio?</summary>
+          <p>Copilot är assistenten i Word, Outlook, Teams och de andra programmen. Copilot Studio är verktyget där man bygger egna agenter som är kopplade till verksamhetens data och system. De licensieras var för sig.</p>
+        </details>
+        <details>
+          <summary>Heter det inte Microsoft 365 Copilot?</summary>
+          <p>Microsoft bytte nyligen namn till Microsoft Copilot. Det är samma tjänst.</p>
+        </details>
+        <details>
+          <summary>Passar det här mindre företag?</summary>
+          <p>Ja. Vi arbetar med både större organisationer och mindre bolag. För mindre bolag hänger det ofta ihop med vår tjänst <a href="/it-chef">IT Ledning</a>, där Copilot blir en del av den löpande IT-styrningen.</p>
+        </details>
+        <details>
+          <summary>Hur lång tid tar en pilot?</summary>
+          <p>Det beror på hur mycket ordning som behövs i behörigheterna. Vi ger en uppskattning efter workshopen.</p>
+        </details>
+        <details>
+          <summary>Säljer ni licenser?</summary>
+          <p>Nej. Vi är oberoende och säljer inga licenser, men vi ger råd om vilka licenser ni behöver och hjälper er att inte köpa fler än ni använder.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="kontakt" style="--contact-photo:url('/images/photo-7.jpg')">
+    <div class="wrap">
+      <h2>Kontakt</h2>
+      <div class="contact-grid">
+        <p class="section-intro" style="margin-bottom:0">Funderar ni på Copilot, har ni licenserna men inte användningen, eller har ni en uppgift som en agent borde kunna ta? Hör av er, så tar vi ett första samtal.</p>
+        <ul class="contact-list">
+          <li><span class="k">E-post</span><a href="mailto:info@oakstride.se">info@oakstride.se</a></li>
+          <li><span class="k">Telefon</span><a href="tel:+46702371704">+46 70 237 17 04</a></li>
+          <li><span class="k">Plats</span>Stockholm med omnejd</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER:START - samma block pa alla sex sidor, andra i alla -->
+<footer class="site-footer">
+  <div class="wrap">
+    <a class="foot-logo" href="/sv">Oak<span>Stride</span></a>
+    <p class="foot-tag">Rådgivning, webbstudio och IT-ledning från Stockholm.</p>
+    <div class="foot-grid">
+      <div><h2>Tjänster</h2><ul><li><a href="/sv">Advisory</a></li><li><a href="/webbstudio">Studio</a></li><li><a href="/it-chef">IT Ledning</a></li><li><a href="/copilot-agenter">Copilot &amp; agenter</a></li><li><a href="https://portal.oakstride.se">Kundportal</a></li></ul></div>
+      <div><h2>Kontakt</h2><ul><li><a href="mailto:info@oakstride.se">info@oakstride.se</a></li><li><a href="tel:+46702371704">+46 70 237 17 04</a></li></ul></div>
+      <div><h2>Juridik</h2><ul><li><a href="/integritet">Integritet &amp; cookies</a></li></ul></div>
+      <div><h2>Språk</h2><ul><li><a href="/copilot-agents" lang="en" hreflang="en">English</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>&copy; 2026 OakStride AB &middot; oakstride.se</span><a href="#top">Till toppen &uarr;</a></div>
+  </div>
+</footer>
+<!-- FOOTER:END -->
+
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var groups = document.querySelectorAll('section .wrap > h2, section .wrap > .section-intro, .band .quote, .card, .step, .fact, .exp-list li, .contact-list, .photo');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12 });
+  groups.forEach(function(el, i){
+    el.classList.add('reveal');
+    el.style.transitionDelay = ((i % 6) * 70) + 'ms';
+    io.observe(el);
+  });
+})();
+</script>
+<script src="/oak-analytics.js?v=4" defer></script>
+<script src="/site.js?v=3" defer onerror="document.documentElement.classList.remove('js')"></script>
+</body>
+</html>

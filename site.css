@@ -287,3 +287,34 @@ footer.site-footer {
 }
 @media (max-width: 800px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 460px) { .foot-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Copilot- och agentsidan (2026-10-30): FAQ och kortlankar ----------
+   FAQ:n ar <details>/<summary> - fungerar utan JS och ror inte site.js. Kortlanken
+   (.card-link) anvands i AI-korten pa startsidan och IT-sidorna. Rorelse bara vid
+   prefers-reduced-motion: no-preference. */
+.faq { display: grid; gap: 12px; max-width: 860px; }
+.faq details { background: #fdfdfb; border: 1px solid var(--line); border-radius: 6px; }
+.faq summary {
+  cursor: pointer; list-style: none; position: relative; padding: 20px 60px 20px 24px;
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 1.08rem; color: var(--pine);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
+  font-family: 'IBM Plex Mono', monospace; font-size: 1.3rem; line-height: 1; color: var(--accent);
+}
+.faq details[open] summary::after { content: "\2212"; }
+.faq summary:hover { color: var(--accent); }
+.faq summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.faq details p { padding: 0 24px 22px; color: #3d443a; max-width: 68ch; }
+.faq details p a { color: var(--accent); }
+.split-text .split-body p + p { margin-top: 16px; }
+.card-link {
+  display: inline-block; margin-top: 16px; color: var(--accent); font-weight: 600;
+  font-size: .95rem; text-decoration: none;
+}
+.card-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .card-link .arrow { display: inline-block; transition: transform .2s ease; }
+  .card-link:hover .arrow, .card-link:focus-visible .arrow { transform: translateX(3px); }
+}
