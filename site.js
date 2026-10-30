@@ -114,7 +114,7 @@
       });
       // Som hos forebilden: scrollar man med panelen oppen stangs den (desktop).
       window.addEventListener('scroll', function () {
-        if (isOpen() && desktop.matches && Math.abs(window.pageYOffset - openedAtY) > 40) setPanel(false);
+        if (isOpen() && desktop.matches && Math.abs(window.pageYOffset - openedAtY) > 40) setPanel(false, panel.contains(document.activeElement));
       }, { passive: true });
       if (desktop.addEventListener) desktop.addEventListener('change', function () { setPanel(false); setMenu(false); });
     }
