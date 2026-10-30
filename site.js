@@ -159,15 +159,22 @@
       else if (timer) { clearTimeout(timer); timer = null; }
     };
     document.addEventListener('visibilitychange', sync);
-    heading.addEventListener('mouseenter', function () { hovered = true; sync(); });
-    heading.addEventListener('mouseleave', function () { hovered = false; sync(); });
-    heroBox.addEventListener('focusin', function () { focused = true; sync(); });
+    // Pekarhover bara for mus/penna: pa pekskarm kommer 'leave' forst vid nasta tryck
+    // nagon annanstans, och rubriken stod still (tystnadsgranskaren #37).
+    heading.addEventListener('pointerenter', function (e) { if (e.pointerType !== 'touch') { hovered = true; sync(); } });
+    heading.addEventListener('pointerleave', function () { hovered = false; sync(); });
+    // Bara tangentbordsfokus pausar. Ett musklick pa en CTA ger ocksa fokus i Chrome och
+    // holl annars rotationen pausad tills fokus lamnade heron.
+    heroBox.addEventListener('focusin', function () {
+      var kb = true; try { kb = !!heroBox.querySelector(':focus-visible'); } catch (err) { kb = true; }
+      focused = kb; sync();
+    });
     heroBox.addEventListener('focusout', function (e) {
       if (!heroBox.contains(e.relatedTarget)) { focused = false; sync(); }
     });
     if (hasIO) {
       new IntersectionObserver(function (entries) {
-        inView = entries[0].isIntersecting; sync();
+        inView = entries[entries.length - 1].isIntersecting; sync();
       }, { threshold: 0 }).observe(heading);
     }
     sync();
