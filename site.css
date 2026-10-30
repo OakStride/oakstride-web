@@ -374,20 +374,45 @@ footer.site-footer {
 }
 .agent-examples-head p { color: #3d443a; }
 .agent-examples { display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px; }
-.agent-examples .card { grid-column: span 2; }
-.agent-examples .card:nth-child(n+4) { grid-column: span 3; }
-.agent-examples .card h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.15rem; color: var(--pine); margin-bottom: 10px; }
-.agent-examples .card .sources {
+.agent-examples .agent-example { grid-column: span 2; }
+.agent-examples .agent-example:nth-child(n+4) { grid-column: span 3; }
+.agent-examples .agent-example h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.15rem; color: var(--pine); margin-bottom: 10px; }
+.agent-examples .agent-example .sources {
   margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: .76rem;
   letter-spacing: .04em; color: #4c534a;
 }
-.theme-copilot .agent-examples .card:nth-child(1) .tag { color: var(--cp-blue-ink); }
-.theme-copilot .agent-examples .card:nth-child(2) .tag { color: var(--cp-teal-ink); }
-.theme-copilot .agent-examples .card:nth-child(3) .tag { color: var(--cp-pink-ink); }
-.theme-copilot .agent-examples .card:nth-child(4) .tag { color: var(--cp-violet-ink); }
-.theme-copilot .agent-examples .card:nth-child(5) .tag { color: var(--cp-amber-ink); }
+.theme-copilot .agent-examples .agent-example:nth-child(1) .tag { color: var(--cp-blue-ink); }
+.theme-copilot .agent-examples .agent-example:nth-child(2) .tag { color: var(--cp-teal-ink); }
+.theme-copilot .agent-examples .agent-example:nth-child(3) .tag { color: var(--cp-pink-ink); }
+.theme-copilot .agent-examples .agent-example:nth-child(4) .tag { color: var(--cp-violet-ink); }
+.theme-copilot .agent-examples .agent-example:nth-child(5) .tag { color: var(--cp-amber-ink); }
 @media (max-width: 1000px) {
   .agent-examples { grid-template-columns: repeat(2, 1fr); }
-  .agent-examples .card, .agent-examples .card:nth-child(n+4) { grid-column: auto; }
+  .agent-examples .agent-example, .agent-examples .agent-example:nth-child(n+4) { grid-column: auto; }
 }
 @media (max-width: 640px) { .agent-examples { grid-template-columns: 1fr; } }
+
+/* ---------- Agentexemplen som robotar (2026-10-30, Fredrik) ----------
+   Ingen kortram: exemplen star fritt mot sektionens bakgrund. Egen klass
+   .agent-example, sa ovriga .card pa sidan ar orords. Robotarna ar egna
+   inline-SVG (aria-hidden), en temafarg var. Rorelse bara vid no-preference. */
+.agent-examples { row-gap: 48px; column-gap: 40px; }
+.agent-example { padding: 0; background: none; border: 0; box-shadow: none; }
+.agent-example .tag {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--acorn); display: block; margin-bottom: 8px;
+}
+.agent-example p { font-size: 0.96rem; color: #3d443a; }
+.agent-example .robot { width: 64px; height: 64px; margin-bottom: 16px; line-height: 0; }
+.agent-example .robot svg { display: block; width: 64px; height: 64px; overflow: visible; }
+.theme-copilot .agent-example:nth-child(1) .robot { color: var(--cp-blue); }
+.theme-copilot .agent-example:nth-child(2) .robot { color: var(--cp-teal); }
+.theme-copilot .agent-example:nth-child(3) .robot { color: var(--cp-pink); }
+.theme-copilot .agent-example:nth-child(4) .robot { color: var(--cp-violet); }
+.theme-copilot .agent-example:nth-child(5) .robot { color: #e3a12f; }
+@media (prefers-reduced-motion: no-preference) {
+  .agent-example .robot svg { transition: transform .3s ease; transform-origin: 50% 90%; }
+  .agent-example:hover .robot svg { transform: translateY(-3px) rotate(-4deg); }
+  .agent-example .wave { transform-origin: 43px 47px; transition: transform .3s ease; }
+  .agent-example:hover .wave { transform: rotate(-12deg); }
+}
