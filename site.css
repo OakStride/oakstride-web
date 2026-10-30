@@ -366,7 +366,8 @@ footer.site-footer {
 
 /* ---------- Copilot: exempel pa agenter (2026-10-30) ----------
    3 + 2 pa desktop (sex spalter, korten spanner 2 resp 3), tva spalter pa
-   mellanbredd, en spalt pa mobil. Kortstilen ar sidans vanliga .card. */
+   mellanbredd, en spalt pa mobil. Exemplen ar .agent-example utan kortram
+   (se avsnittet om robotarna nedan), inte sidans vanliga .card. */
 .agent-examples-head { margin: 64px 0 28px; max-width: 60ch; }
 .agent-examples-head h3 {
   font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(1.3rem, 2.2vw, 1.6rem);
