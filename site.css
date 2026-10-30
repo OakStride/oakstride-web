@@ -29,7 +29,8 @@ h1 {
   font-weight: 600; letter-spacing: -0.03em; line-height: 1.0;
   max-width: none;
 }
-h2 {
+/* Bara sektionernas h2 - Studios brief-modal (#brief-modal h2) behaller sin storlek. */
+section h2 {
   font-size: clamp(2rem, 4.5vw, 3.4rem);
   font-weight: 600; letter-spacing: -0.025em; line-height: 1.08;
   margin-bottom: 20px;
@@ -51,7 +52,7 @@ header.site-header {
   border-bottom: 1px solid var(--line);
   transition: background-color .3s ease, border-color .3s ease, color .3s ease;
 }
-.site-header .nav { min-height: var(--header-h); padding-top: 12px; padding-bottom: 12px; gap: 24px; }
+.site-header .nav { padding-top: 12px; padding-bottom: 12px; gap: 24px; }
 .site-header.over-hero:not(.menu-open):not(.panel-open) {
   background: transparent; border-bottom-color: transparent;
 }
@@ -93,7 +94,11 @@ header.site-header {
   box-shadow: 0 24px 60px rgba(20,30,25,.22);
   padding: 36px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
 }
-.nav-panel[hidden] { display: none; }
+.nav-panel:not(.is-open) { display: none; }
+/* Utan JS ar triggern en vanlig lank och panelen visas vid hover eller nar fokus
+   ar inne i den - sa Studio och IT Governance nas med mus och tangentbord. */
+html:not(.js) .nav-item:hover .nav-panel,
+html:not(.js) .nav-item:focus-within .nav-panel { display: grid; }
 .nav-col { display: flex; flex-direction: column; gap: 8px; }
 .site-header .nav-panel a { color: var(--ink); text-decoration: none; font-size: .95rem; font-weight: 400; white-space: normal; }
 .site-header .nav-panel a:hover { color: var(--accent); }
@@ -118,7 +123,7 @@ header.site-header {
 .site-header .pill:hover { background: rgba(0,0,0,.05); }
 
 @media (prefers-reduced-motion: no-preference) {
-  .nav-panel:not([hidden]) { animation: panelIn .22s ease both; }
+  .nav-panel.is-open { animation: panelIn .22s ease both; }
   @keyframes panelIn { from { opacity: 0; transform: translate(-50%, -6px); } to { opacity: 1; transform: translate(-50%, 0); } }
 }
 
@@ -151,6 +156,11 @@ header.site-header {
   .site-header .lang a { padding: 0; font-size: .95rem; }
   .site-header .nav-tools .pill { padding: 8px 18px; font-size: .95rem; border: 1px solid var(--ink); }
   .nav-scrim { display: none !important; }
+  html:not(.js) header.site-header { position: relative; }
+  html:not(.js) .hero { padding-top: 72px; }
+  html:not(.js) .site-header .nav-toggle { display: none; }
+  html:not(.js) .site-header nav.links { display: flex; max-height: none; }
+  html:not(.js) .nav-panel { display: grid; }
   @keyframes panelIn { from { opacity: 0; } to { opacity: 1; } }
 }
 
@@ -163,14 +173,6 @@ header.site-header {
   transition: opacity .5s ease, transform .5s ease, filter .5s ease;
 }
 .rot .rot-word.on { opacity: 1; transform: none; filter: none; }
-.rot-pause {
-  margin-top: 22px; display: inline-flex; align-items: center; gap: 8px;
-  background: none; border: 1px solid rgba(245,247,246,.45); color: #d7e0da; border-radius: 999px;
-  font: inherit; font-size: .78rem; letter-spacing: .06em; padding: 5px 12px; cursor: pointer;
-}
-.rot-pause:hover { border-color: #f5f7f6; color: #f5f7f6; }
-.rot-pause[hidden] { display: none; }
-.rot-pause:focus-visible { outline: 2px solid #f5f7f6; outline-offset: 3px; }
 
 /* ---------- Forslag 8: heron - storre bild, mindre text, ett piller ---------- */
 .hero {
@@ -196,24 +198,17 @@ header.site-header {
   .hero::before { background-position: 62% center; }
 }
 
-/* ---------- Forslag 4 + 9: pastaende och tal, tre erbjudanden ---------- */
+/* ---------- Forslag 9: pastaende och tre erbjudanden (talen stroks av Fredrik 2026-10-30) ---------- */
 .split-grid { display: flex; gap: 72px; align-items: flex-start; }
 .split-text { flex: 1 1 0; }
 .split-text h2 { max-width: 18ch; }
 .split-text p { max-width: 62ch; font-size: 1.12rem; color: #3d443a; }
-.stats { flex: 0 0 34%; display: grid; gap: 0; margin: 0; }
-.stats[hidden] { display: none; } /* [hidden] far inte slas ut av display ovan */
-.stat { padding: 22px 0; border-top: 1px solid var(--line); }
-.stat:last-child { border-bottom: 1px solid var(--line); }
-.stat dd, .stat .num, .fact .num {
+.fact .num {
   margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600;
-  font-size: clamp(2.6rem, 5vw, 4.2rem); line-height: 1; letter-spacing: -0.03em;
-  color: var(--accent); font-variant-numeric: tabular-nums;
+  font-size: clamp(2rem, 3.4vw, 2.8rem); line-height: 1; letter-spacing: -0.03em; color: var(--accent);
 }
 .fact { border-left-color: var(--accent); }
-.fact .num { font-size: clamp(2rem, 3.4vw, 2.8rem); }
-.stat dt { font-size: .95rem; color: #3d443a; margin-top: 6px; }
-@media (max-width: 800px) { .split-grid { flex-direction: column; gap: 40px; } .stats { flex-basis: auto; width: 100%; } }
+
 
 .offer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 .offer { display: flex; flex-direction: column; }

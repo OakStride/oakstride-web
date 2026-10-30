@@ -1,12 +1,16 @@
 /* site.js - delat beteende for de sex huvudsidorna. Ersatter det inline-skript for
    mobilmenyn som tidigare lag kopierat i varje fil. Inga externa bibliotek.
-   1. Headerns lage (genomskinlig over heron, solid annars)
+   1. Headerns lage (genomskinlig over heron, solid annars) - hojden mats, inte gissas
    2. Mobilmenyn (hamburgaren)
-   3. Tjanster-panelen (klick, Enter/Space, Esc, klick utanfor, hover pa breda skarmar)
-   4. Roterande ord i heron (stannar efter ett varv, pausknapp, pausar nar dold)
-   5. Tal som raknas upp nar de syns
-   Allt rorligt (4 och 5) startar aldrig vid prefers-reduced-motion. */
+   3. Tjanster-panelen. I HTML ar triggern en vanlig lank till sidans tjansteavsnitt,
+      sa menyn fungerar utan JS. Har forstarks den till en knapp med aria-expanded
+      (klick, Enter/Space, Esc, klick utanfor, hover pa breda skarmar).
+   4. Roterande ord i heron: tva byten med 2 s mellanrum, sedan stannar det pa sista
+      ordet. Hela rorelsen ar klar inom 5 s (WCAG 2.2.2 utan pausknapp).
+   Rotationen startar aldrig vid prefers-reduced-motion. */
 (function () {
+  var root = document.documentElement;
+  root.classList.add('js'); // satts redan i <head>; har som reserv
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasIO = 'IntersectionObserver' in window;
   var desktop = window.matchMedia('(min-width: 901px)');
@@ -14,29 +18,46 @@
 
   var header = document.querySelector('.site-header');
   var hero = document.querySelector('.hero');
+  var nav = header ? header.querySelector('.nav') : null;
 
   // ---- 1. Headerns lage ----
-  if (header && hero && hasIO) {
-    var hio = new IntersectionObserver(function (entries) {
-      header.classList.toggle('over-hero', entries[0].isIntersecting);
-    }, { rootMargin: '-72px 0px 0px 0px', threshold: 0 });
-    hio.observe(hero);
+  // Hojden mats nar menyn ar stangd och skrivs till --header-h, som heron och
+  // scroll-padding laser. Samma varde styr observatorns rootMargin.
+  var hio = null;
+  var measure = function () {
+    if (!header || (nav && nav.classList.contains('open'))) return;
+    var h = header.offsetHeight;
+    if (!h) return;
+    root.style.setProperty('--header-h', h + 'px');
+    if (hero && hasIO) {
+      if (hio) hio.disconnect();
+      hio = new IntersectionObserver(function (entries) {
+        header.classList.toggle('over-hero', entries[0].isIntersecting);
+      }, { rootMargin: '-' + h + 'px 0px 0px 0px', threshold: 0 });
+      hio.observe(hero);
+    }
+  };
+  if (header) {
+    measure();
+    var rt = null;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(measure, 150); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
   }
 
   if (header) {
-    var nav = header.querySelector('.nav');
     var toggle = header.querySelector('.nav-toggle');
     var trigger = header.querySelector('.nav-trigger');
-    var panel = trigger ? document.getElementById(trigger.getAttribute('aria-controls')) : null;
+    var panel = trigger ? document.getElementById(trigger.getAttribute('data-panel')) : null;
     var item = trigger ? trigger.parentNode : null;
     var scrim = document.querySelector('.nav-scrim');
     var openedByHover = 0;
     var hoverTimer = null;
 
     // ---- 3. Tjanster-panelen ----
+    var isOpen = function () { return panel && panel.classList.contains('is-open'); };
     var setPanel = function (open, returnFocus) {
       if (!panel) return;
-      panel.hidden = !open;
+      panel.classList.toggle('is-open', open);
       trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
       header.classList.toggle('panel-open', open && desktop.matches);
       if (scrim) scrim.hidden = !(open && desktop.matches);
@@ -58,15 +79,22 @@
     }
 
     if (trigger && panel) {
-      // <button> ger Enter och Space av sig sjalv - inget eget tangentbordsfang behovs.
-      trigger.addEventListener('click', function () {
-        if (!panel.hidden && Date.now() - openedByHover < 450) return; // hover hann forst
-        setPanel(panel.hidden);
+      // Lanken blir en knapp: rollen, tillstandet och Space (Enter ger en lank sjalv).
+      trigger.setAttribute('role', 'button');
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.setAttribute('aria-controls', panel.id);
+      trigger.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (isOpen() && Date.now() - openedByHover < 450) return; // hover hann forst
+        setPanel(!isOpen());
+      });
+      trigger.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); setPanel(!isOpen()); }
       });
       item.addEventListener('mouseenter', function () {
         if (!desktop.matches || !canHover.matches) return;
         clearTimeout(hoverTimer);
-        if (panel.hidden) { openedByHover = Date.now(); setPanel(true); }
+        if (!isOpen()) { openedByHover = Date.now(); setPanel(true); }
       });
       item.addEventListener('mouseleave', function () {
         if (!desktop.matches || !canHover.matches) return;
@@ -80,19 +108,20 @@
       });
       if (scrim) scrim.addEventListener('click', function () { setPanel(false); });
       document.addEventListener('click', function (e) {
-        if (!panel.hidden && desktop.matches && !item.contains(e.target)) setPanel(false);
+        if (isOpen() && desktop.matches && !item.contains(e.target)) setPanel(false);
       });
-      desktop.addEventListener && desktop.addEventListener('change', function () { setPanel(false); setMenu(false); });
+      if (desktop.addEventListener) desktop.addEventListener('change', function () { setPanel(false); setMenu(false); });
     }
 
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Escape' && e.key !== 'Esc') return;
-      if (panel && !panel.hidden) { setPanel(false, true); return; }
+      if (isOpen()) { setPanel(false, true); return; }
       if (nav && nav.classList.contains('open')) setMenu(false, true);
     });
 
-    // En vald lank stanger menyn (ankarlankar pa samma sida).
+    // En vald lank stanger menyn (ankarlankar pa samma sida) - men inte triggern.
     Array.prototype.forEach.call(header.querySelectorAll('nav.links a'), function (a) {
+      if (a === trigger) return;
       a.addEventListener('click', function () { setPanel(false); setMenu(false); });
     });
   }
@@ -100,65 +129,14 @@
   // ---- 4. Roterande ord ----
   Array.prototype.forEach.call(document.querySelectorAll('[data-rotator]'), function (rot) {
     var words = rot.querySelectorAll('.rot-word');
-    var btn = document.getElementById(rot.getAttribute('data-pause'));
     if (words.length < 2 || reduce) return;
-    var i = 0, steps = 0, timer = null, paused = false, done = false, inView = true;
+    var i = 0;
     var show = function (n) { words[i].classList.remove('on'); i = n; words[i].classList.add('on'); };
-    var stop = function () { clearInterval(timer); timer = null; };
-    var finish = function () { stop(); done = true; if (btn) btn.hidden = true; };
-    var tick = function () {
-      show((i + 1) % words.length);
-      steps += 1;
-      if (steps >= words.length) finish(); // ett varv, tillbaka pa forsta ordet
+    var step = function () {
+      if (i >= words.length - 1) return; // stannar pa sista ordet
+      show(i + 1);
+      if (i < words.length - 1) setTimeout(step, 2000);
     };
-    var start = function () {
-      if (timer || done || paused || !inView || document.hidden) return;
-      timer = setInterval(tick, 2800);
-    };
-    if (btn) {
-      btn.hidden = false;
-      btn.addEventListener('click', function () {
-        paused = !paused;
-        btn.querySelector('[data-label]').textContent = btn.getAttribute(paused ? 'data-play' : 'data-pause-label');
-        if (paused) stop(); else start();
-      });
-    }
-    document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else start(); });
-    if (hasIO) {
-      new IntersectionObserver(function (en) {
-        inView = en[0].isIntersecting;
-        if (inView) start(); else stop();
-      }).observe(rot);
-    } else {
-      start();
-    }
+    setTimeout(step, 2000);
   });
-
-  // ---- 5. Tal som raknas upp ----
-  // Talet star fardigt i HTML (det ar det skarmlasare och sokmotorer far). Skriptet
-  // nollstaller bara den synliga, aria-dolda siffran och raknar fram till samma varde.
-  var counters = document.querySelectorAll('[data-count]');
-  if (counters.length && !reduce && hasIO && window.requestAnimationFrame) {
-    var run = function (el) {
-      var target = parseFloat(el.getAttribute('data-count')) || 0;
-      var t0 = null, dur = 1200;
-      var step = function (t) {
-        if (t0 === null) t0 = t;
-        var p = Math.min(1, (t - t0) / dur);
-        var eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = String(Math.round(target * eased));
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    };
-    var cio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { cio.unobserve(en.target); run(en.target); }
-      });
-    }, { threshold: 0.6 });
-    Array.prototype.forEach.call(counters, function (el) {
-      el.textContent = '0';
-      cio.observe(el);
-    });
-  }
 })();
