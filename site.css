@@ -216,6 +216,8 @@ html:not(.js) .nav-item:focus-within .nav-panel { display: grid; }
    pastaenden. Tidigare stod allt i en spalt med en tom hoger halva dar talen skulle
    ha legat, och sektionen fick full luft bade over och under. */
 .split { padding-bottom: clamp(40px, 5vw, 64px); }
+/* Som eget fargat band (Copilot-sidan) behover sektionen samma luft under som over. */
+.split.alt { padding-bottom: clamp(72px, 10vw, 140px); }
 .split-grid { display: block; }
 .split + .offers { padding-top: clamp(56px, 7vw, 96px); }
 .split-text {
@@ -407,6 +409,9 @@ footer.site-footer {
 .agent-example p { font-size: 0.96rem; color: #3d443a; }
 .agent-example .robot { width: 112px; height: 112px; margin: 0 0 12px -8px; line-height: 0; }
 .agent-example .robot img { display: block; width: 112px; height: 112px; }
+/* Skuggan ar inbakad ut till bildkanten pa fyra av fem bilder (granskare #41) - tona ut
+   hogerkanten i stallet for att lata den sluta i en rak linje. */
+.agent-example .robot img { -webkit-mask-image: linear-gradient(to right, #000 90%, transparent 100%); mask-image: linear-gradient(to right, #000 90%, transparent 100%); }
 @media (prefers-reduced-motion: no-preference) {
   .agent-example .robot img { transition: transform .3s ease; transform-origin: 50% 90%; }
   .agent-example:hover .robot img { transform: translateY(-4px) rotate(-3deg); }
