@@ -52,11 +52,13 @@
     var scrim = document.querySelector('.nav-scrim');
     var openedByHover = 0;
     var hoverTimer = null;
+    var openedAtY = 0;
 
     // ---- 3. Tjanster-panelen ----
     var isOpen = function () { return panel && panel.classList.contains('is-open'); };
     var setPanel = function (open, returnFocus) {
       if (!panel) return;
+      if (open) openedAtY = window.pageYOffset;
       panel.classList.toggle('is-open', open);
       trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
       header.classList.toggle('panel-open', open && desktop.matches);
@@ -110,6 +112,10 @@
       document.addEventListener('click', function (e) {
         if (isOpen() && desktop.matches && !item.contains(e.target)) setPanel(false);
       });
+      // Som hos forebilden: scrollar man med panelen oppen stangs den (desktop).
+      window.addEventListener('scroll', function () {
+        if (isOpen() && desktop.matches && Math.abs(window.pageYOffset - openedAtY) > 40) setPanel(false);
+      }, { passive: true });
       if (desktop.addEventListener) desktop.addEventListener('change', function () { setPanel(false); setMenu(false); });
     }
 
