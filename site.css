@@ -1,0 +1,270 @@
+/* site.css - delad stil for de sex huvudsidorna (index/sv, studio/webbstudio,
+   it-management/it-chef). Laddas EFTER sidans inline-<style>, sa samma selektor har
+   vinner. Byggt 2026-10-29 efter de tio forslagen "efter EQT".
+   Ingen bygg-kedja och inga externa bibliotek: ren CSS. All rorelse ar avstangd vid
+   prefers-reduced-motion via sidornas egen globala regel (animation/transition: none). */
+
+/* ---------- Forslag 7: EN signaturfarg ----------
+   --accent ar sajtens befintliga --acorn (#2f6486): den bla som redan bar "Stride" i
+   logotypen, fokusramar och faktarutans kant. Byt farg har och bara har.
+   Kontrast (WCAG 2.x): vit text pa #2f6486 = 6.4:1, #f5f7f6 pa #2f6486 = 5.9:1,
+   #2f6486 pa #f5f7f6 = 5.9:1 - AA for brodtext i alla tre fallen. */
+:root {
+  --accent: #2f6486;
+  --accent-soft: #c1d0db; /* fallback for webblasare utan color-mix */
+  --accent-soft: color-mix(in srgb, var(--accent) 30%, #ffffff);
+  --header-h: 72px;
+}
+
+/* ---------- Forslag 6: mer luft och bredare yta ---------- */
+.wrap { max-width: 1200px; }
+section { padding: clamp(72px, 10vw, 140px) 0; }
+.section-intro { margin-bottom: 64px; }
+.card .icon { width: 28px; height: 28px; opacity: .6; }
+html { scroll-padding-top: calc(var(--header-h) + 12px); }
+
+/* ---------- Forslag 5: storre, lugnare rubriker ---------- */
+h1 {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 600; letter-spacing: -0.03em; line-height: 1.0;
+  max-width: none;
+}
+/* Bara sektionernas h2 - Studios brief-modal (#brief-modal h2) behaller sin storlek. */
+section h2 {
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  font-weight: 600; letter-spacing: -0.025em; line-height: 1.08;
+  margin-bottom: 20px;
+}
+.hero p.lead { font-size: 1.25rem; max-width: 46ch; line-height: 1.5; }
+
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- Forslag 1: headern - genomskinlig over heron, solid efter scroll ----------
+   Utgangslaget ar SOLITT. Skriptet satter .over-hero bara nar heron syns, sa en sida
+   dar skriptet inte kor far aldrig vit text pa ljus botten. */
+header.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  background: var(--paper);
+  backdrop-filter: none;
+  border-bottom: 1px solid var(--line);
+  transition: background-color .3s ease, border-color .3s ease, color .3s ease;
+}
+.site-header .nav { padding-top: 12px; padding-bottom: 12px; gap: 24px; }
+.site-header.over-hero:not(.menu-open):not(.panel-open) {
+  background: transparent; border-bottom-color: transparent;
+}
+.site-header.over-hero:not(.menu-open):not(.panel-open) .logo,
+.site-header.over-hero:not(.menu-open):not(.panel-open) nav.links > a,
+.site-header.over-hero:not(.menu-open):not(.panel-open) .nav-trigger,
+.site-header.over-hero:not(.menu-open):not(.panel-open) .lang,
+.site-header.over-hero:not(.menu-open):not(.panel-open) .lang a,
+.site-header.over-hero:not(.menu-open):not(.panel-open) .nav-toggle { color: #f5f7f6; }
+.site-header.over-hero:not(.menu-open):not(.panel-open) .logo span { color: var(--accent-soft); }
+.site-header.over-hero:not(.menu-open):not(.panel-open) .logo small { color: #c9d9cf; }
+.site-header.over-hero:not(.menu-open):not(.panel-open) .pill { color: #f5f7f6; border-color: rgba(245,247,246,.7); }
+.site-header.over-hero:not(.menu-open):not(.panel-open) :focus-visible,
+.hero :focus-visible { outline-color: #f5f7f6; }
+.site-header .logo, .site-header nav.links > a, .site-header .nav-trigger { transition: color .3s ease; }
+
+/* Heron borjar i overkant, under den fasta headern */
+.hero { padding-top: calc(var(--header-h) + 72px); }
+
+/* ---------- Forslag 2: menystruktur - tre val, en panel, verktyg till hoger ---------- */
+.site-header nav.links { flex: 1; align-items: center; gap: 30px; margin-left: 24px; }
+.site-header .nav-item { position: static; }
+.nav-trigger {
+  background: none; border: 0; cursor: pointer; font: inherit; color: var(--ink);
+  font-size: .95rem; font-weight: 500; padding: 6px 0; display: inline-flex; align-items: center; gap: 8px;
+}
+.nav-trigger:hover { color: var(--moss); }
+.nav-trigger:focus-visible, .nav-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.chev {
+  width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg); transition: transform .2s ease;
+}
+.nav-trigger[aria-expanded="true"] .chev { transform: translateY(1px) rotate(-135deg); }
+
+.nav-panel {
+  position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+  width: min(1100px, calc(100vw - 32px));
+  background: #ffffff; color: var(--ink); border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(20,30,25,.22);
+  padding: 36px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+}
+.nav-panel:not(.is-open) { display: none; }
+/* Utan JS ar triggern en vanlig lank och panelen visas vid hover eller nar fokus
+   ar inne i den - sa Studio och IT Governance nas med mus och tangentbord. */
+html:not(.js) .nav-item:hover .nav-panel,
+html:not(.js) .nav-item:focus-within .nav-panel { display: grid; }
+/* Osynlig brygga over glappet mellan trigger och panel, sa att :hover inte slapper
+   pa vagen ner nar JS saknas (granskare #35). */
+@media (min-width: 901px) { html:not(.js) .nav-panel::before { content: ""; position: absolute; left: 0; right: 0; top: -22px; height: 22px; } }
+.nav-col { display: flex; flex-direction: column; gap: 8px; }
+.site-header .nav-panel a { color: var(--ink); text-decoration: none; font-size: .95rem; font-weight: 400; white-space: normal; }
+.site-header .nav-panel a:hover { color: var(--accent); }
+.site-header .nav-panel a.nav-col-head {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.35rem; font-weight: 600;
+  letter-spacing: -0.01em; color: var(--pine); margin-bottom: 2px;
+}
+.nav-col p { font-size: .9rem; color: #4c534a; margin-bottom: 8px; line-height: 1.5; }
+.nav-scrim { position: fixed; inset: 0; z-index: 40; background: rgba(16,24,20,.35); }
+.nav-scrim[hidden] { display: none; }
+
+.nav-tools { margin-left: auto; display: flex; align-items: center; gap: 18px; }
+.lang { font-size: .9rem; font-weight: 500; color: var(--ink); display: inline-flex; gap: 6px; letter-spacing: .04em; }
+.lang-cur { font-weight: 700; }
+.lang-sep { opacity: .5; }
+.site-header .lang a { color: var(--ink); text-decoration: none; opacity: .75; }
+.site-header .lang a:hover { opacity: 1; }
+.site-header .pill, .pill {
+  display: inline-block; padding: 8px 18px; border: 1px solid var(--ink); border-radius: 999px;
+  color: var(--ink); text-decoration: none; font-size: .9rem; font-weight: 500;
+}
+.site-header .pill:hover { background: rgba(0,0,0,.05); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .nav-panel.is-open { animation: panelIn .22s ease both; }
+  @keyframes panelIn { from { opacity: 0; transform: translate(-50%, -6px); } to { opacity: 1; transform: translate(-50%, 0); } }
+}
+
+/* Mobil: hamburgaren tar over redan vid 900 px, sa att langre engelska menyord aldrig
+   bryter raden (den kanda mobilnav-buggen vid sprakbyte). Panelen blir ett dragspel. */
+@media (max-width: 900px) {
+  :root { --header-h: 64px; }
+  .site-header .nav { flex-wrap: wrap; }
+  .site-header .nav-toggle { display: block; order: 2; margin-left: auto; }
+  .site-header nav.links {
+    display: none; order: 3; width: 100%; margin-left: 0; flex: none;
+    flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 0; padding: 6px 0 10px;
+    max-height: calc(100vh - var(--header-h)); overflow-y: auto;
+  }
+  .site-header .nav.open nav.links { display: flex; }
+  .site-header nav.links > * { flex-shrink: 0; }
+  .site-header nav.links > a, .nav-trigger {
+    padding: 14px 2px; font-size: 1.05rem; border-top: 1px solid rgba(0,0,0,.08); width: 100%;
+    justify-content: space-between; text-align: left;
+  }
+  .nav-panel {
+    position: static; transform: none; width: 100%; box-shadow: none; border-radius: 0;
+    padding: 4px 0 12px 12px; grid-template-columns: 1fr; gap: 18px; background: transparent;
+  }
+  .site-header .nav-panel a { padding: 4px 0; border: 0; font-size: .98rem; }
+  .site-header .nav-panel a.nav-col-head { font-size: 1.1rem; }
+  .nav-col p { margin-bottom: 2px; }
+  .nav-tools { margin-left: 0; padding: 16px 2px 4px; border-top: 1px solid rgba(0,0,0,.08); justify-content: space-between; }
+  .site-header .lang a, .site-header .nav-tools .pill { border-top: 1px solid transparent; }
+  .site-header .lang a { padding: 0; font-size: .95rem; }
+  .site-header .nav-tools .pill { padding: 8px 18px; font-size: .95rem; border: 1px solid var(--ink); }
+  .nav-scrim { display: none !important; }
+  html:not(.js) header.site-header { position: relative; }
+  html:not(.js) .hero { padding-top: 72px; }
+  html:not(.js) .site-header .nav-toggle { display: none; }
+  html:not(.js) .site-header nav.links { display: flex; max-height: none; }
+  html:not(.js) .nav-panel { display: grid; }
+  @keyframes panelIn { from { opacity: 0; } to { opacity: 1; } }
+}
+
+/* ---------- Forslag 3: roterande ord i heron ---------- */
+.rot-h1 .rot-fixed { color: inherit; display: block; }
+.rot { display: grid; margin-top: .08em; }
+.rot .rot-word {
+  grid-area: 1 / 1; color: var(--accent-soft);
+  opacity: 0; transform: translateY(.3em); filter: blur(4px);
+  transition: opacity .5s ease, transform .5s ease, filter .5s ease;
+}
+.rot .rot-word.on { opacity: 1; transform: none; filter: none; }
+
+/* ---------- Forslag 8: heron - storre bild, mindre text, ett piller ---------- */
+.hero {
+  min-height: 78vh; display: flex; align-items: flex-end;
+  padding-bottom: clamp(56px, 8vw, 110px);
+}
+.hero > .wrap { width: 100%; }
+.hero::after {
+  background:
+    linear-gradient(90deg, rgba(16,29,23,.55) 0%, rgba(16,29,23,.2) 55%, rgba(16,29,23,0) 100%),
+    linear-gradient(180deg, rgba(16,29,23,.62) 0%, rgba(16,29,23,.5) 38%, rgba(16,29,23,.88) 100%);
+}
+.hero .btn-primary, .btn-pill { border-radius: 999px; padding: 15px 30px; }
+.hero-scroll {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(245,247,246,.55);
+  color: #f5f7f6; text-decoration: none; font-size: 1.1rem;
+}
+.hero-scroll:hover { background: rgba(255,255,255,.1); }
+.cta-row { align-items: center; }
+@media (max-width: 700px) {
+  .hero { min-height: 86vh; }
+  .hero::before { background-position: 62% center; }
+}
+
+/* ---------- Forslag 9: pastaende och tre erbjudanden (talen stroks av Fredrik 2026-10-30) ---------- */
+.split-grid { display: flex; gap: 72px; align-items: flex-start; }
+.split-text { flex: 1 1 0; }
+.split-text h2 { max-width: 18ch; }
+.split-text p { max-width: 62ch; font-size: 1.12rem; color: #3d443a; }
+.fact .num {
+  margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600;
+  font-size: clamp(2rem, 3.4vw, 2.8rem); line-height: 1; letter-spacing: -0.03em; color: var(--accent);
+}
+.fact { border-left-color: var(--accent); }
+
+
+.offer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.offer { display: flex; flex-direction: column; }
+.offer .photo { aspect-ratio: 4 / 3; margin-bottom: 22px; }
+.offer .photo img { height: 100%; }
+.offer h3 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.6rem; font-weight: 600; color: var(--pine); letter-spacing: -0.015em; }
+.offer p { color: #3d443a; margin: 8px 0 22px; padding-bottom: 22px; border-bottom: 1px solid var(--line); flex: 1; }
+.offer .pill { align-self: flex-start; border-color: var(--accent); color: var(--accent); }
+.offer .pill:hover { background: var(--accent); color: #ffffff; }
+.offer .pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 860px) { .offer-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+/* ---------- Forslag 10: kontaktfalt i accentfarg + riktig footer ---------- */
+#contact, #kontakt {
+  background: var(--accent); position: relative; overflow: hidden; color: #ffffff;
+}
+#contact h2, #kontakt h2 { color: #ffffff; }
+#contact .section-intro, #kontakt .section-intro { color: #e6eef3; }
+#contact .contact-list li, #kontakt .contact-list li { color: #e6eef3; }
+#contact .contact-list a, #kontakt .contact-list a { color: #ffffff; border-bottom-color: rgba(255,255,255,.7); }
+#contact .contact-list a:hover, #kontakt .contact-list a:hover { color: #ffffff; border-bottom-color: #ffffff; }
+#contact .contact-list .k, #kontakt .contact-list .k { color: #d6e4ee; }
+#contact a:focus-visible, #kontakt a:focus-visible { outline-color: #ffffff; }
+@media (min-width: 961px) {
+  #contact::after, #kontakt::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 36%;
+    background: var(--contact-photo, url('/images/photo-3.jpg')) center/cover no-repeat;
+  }
+  #contact .wrap, #kontakt .wrap { position: relative; z-index: 1; }
+  #contact .contact-grid, #kontakt .contact-grid { max-width: 56%; grid-template-columns: 1fr; gap: 36px; }
+}
+
+footer.site-footer {
+  border-top: 0; background: var(--ink); color: #c9d2cc; padding: 80px 0 36px; font-size: .95rem;
+}
+.site-footer .foot-logo {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 1.6rem;
+  letter-spacing: -0.02em; color: #f5f7f6; text-decoration: none;
+}
+.site-footer .foot-logo span { color: var(--accent-soft); }
+.site-footer .foot-tag { margin-top: 8px; color: #9aa59e; max-width: 40ch; }
+.foot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin: 56px 0 48px; }
+.foot-grid h2 {
+  font-family: 'IBM Plex Mono', monospace; font-size: .74rem; font-weight: 500; letter-spacing: .14em;
+  text-transform: uppercase; color: #9aa59e; margin-bottom: 14px;
+}
+.foot-grid ul { list-style: none; display: grid; gap: 8px; }
+.site-footer a { color: #f5f7f6; text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.site-footer a:focus-visible { outline: 2px solid #f5f7f6; outline-offset: 3px; }
+.foot-bottom {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  border-top: 1px solid rgba(255,255,255,.12); padding-top: 24px; font-size: .86rem; color: #9aa59e;
+}
+@media (max-width: 800px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 460px) { .foot-grid { grid-template-columns: 1fr; } }

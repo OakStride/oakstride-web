@@ -237,24 +237,48 @@
     .nav-cross-label{display:block;width:100%;padding:12px 2px 2px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);border-top:1px solid rgba(0,0,0,.08)}
   }
 </style>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="/site.css?v=2">
 </head>
 <body>
 
-<header>
+<header class="site-header">
   <div class="wrap nav">
     <a class="logo" href="/">Oak<span>Stride</span><small>IT Governance</small></a>
     <nav class="links" aria-label="Main navigation">
+      <div class="nav-item">
+        <a class="nav-trigger" href="#tjansten" data-panel="nav-panel">Services<span class="chev" aria-hidden="true"></span></a>
+        <div class="nav-panel" id="nav-panel">
+          <div class="nav-col">
+            <a class="nav-col-head" href="/">Advisory <span class="arrow">&rarr;</span></a>
+            <p>Interim leadership, digital and AI transformation, governance and PMO.</p>
+            <a href="/#services">What we do</a>
+            <a href="/#about">How we work</a>
+          </div>
+          <div class="nav-col">
+            <a class="nav-col-head" href="/studio">Studio <span class="arrow">&rarr;</span></a>
+            <p>Websites and online shops for small organisations, easy to run.</p>
+            <a href="/studio#work">Our work</a>
+            <a href="/studio#how">How it works</a>
+          </div>
+          <div class="nav-col">
+            <a class="nav-col-head" href="/it-management">IT Governance <span class="arrow">&rarr;</span></a>
+            <p>Part-time IT leadership for companies with 1&ndash;50 employees.</p>
+            <a href="/it-management#tjansten">The service</a>
+            <a href="/it-management#kontakt">Book a conversation</a>
+          </div>
+        </div>
+      </div>
       <a href="#tjansten">The service</a>
       <a href="#kontakt">Contact</a>
-      <a href="/it-chef" lang="sv">Svenska</a>
-      <span class="nav-div" aria-hidden="true"></span>
-      <span class="nav-cross-label">More from OakStride</span>
-      <a href="/studio" class="nav-cross">Studio <span class="arrow">&rarr;</span></a>
-      <a href="/" class="nav-cross">Advisory <span class="arrow">&rarr;</span></a>
+      <div class="nav-tools">
+        <span class="lang"><span class="lang-cur" aria-hidden="true">EN</span><span class="lang-sep" aria-hidden="true">/</span><a href="/it-chef" lang="sv" hreflang="sv" aria-label="Svenska">SV</a></span>
+      </div>
     </nav>
-      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
+<div class="nav-scrim" hidden></div>
 
 <main id="top">
   <div class="hero">
@@ -271,12 +295,19 @@
       <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
     </svg>
     <div class="wrap">
-      <p class="eyebrow">OakStride · IT Governance</p>
-      <h1>An IT manager on your side of the table.</h1>
-      <p class="lead">For companies with 1–50 employees that have outgrown 'the person who knows computers' but don't need a full-time IT manager. OakStride supports and offloads your team on IT matters — strategy, budget, security and vendors — on a fixed number of hours per month.</p>
+      <p class="eyebrow">OakStride &middot; IT Governance</p>
+      <h1 class="rot-h1">
+        <span aria-hidden="true"><span class="rot-fixed">Part-time IT leadership for</span><span class="rot" data-rotator>
+          <span class="rot-word on">strategy &amp; budget.</span>
+          <span class="rot-word">security.</span>
+          <span class="rot-word">your vendors.</span>
+        </span></span>
+        <span class="sr-only">Part-time IT leadership for strategy and budget, security and your vendors.</span>
+      </h1>
+      <p class="lead">An IT manager on your side of the table &mdash; for companies with 1&ndash;50 employees, on a fixed number of hours per month.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#kontakt">Book a conversation <span class="arrow">&rarr;</span></a>
-        <a class="btn btn-ghost" href="#tjansten">How it works <span class="arrow arrow-d">&darr;</span></a>
+        <a class="btn btn-primary btn-pill" href="#kontakt">Book a conversation <span class="arrow">&rarr;</span></a>
+        <a class="hero-scroll" href="#tjansten" aria-label="How it works"><span class="arrow arrow-d" aria-hidden="true">&darr;</span></a>
       </div>
     </div>
   </div>
@@ -359,7 +390,7 @@
     </div>
   </section>
 
-  <section class="alt" id="kontakt">
+  <section class="alt" id="kontakt" style="--contact-photo:url('/images/photo-6.jpg')">
     <div class="wrap">
       <h2>Contact</h2>
       <div class="contact-grid">
@@ -374,12 +405,21 @@
   </section>
 </main>
 
-<footer>
-  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-    <span>© 2026 OakStride</span>
-    <span><a href="/" style="color:inherit;">oakstride.se</a> · IT Governance · <a href="/studio" style="color:inherit;">Studio</a> · <a href="/privacy" style="color:inherit;">Privacy &amp; cookies</a></span>
+<!-- FOOTER:START - samma block pa alla sex sidor, andra i alla -->
+<footer class="site-footer">
+  <div class="wrap">
+    <a class="foot-logo" href="/">Oak<span>Stride</span></a>
+    <p class="foot-tag">Consulting, web studio and IT leadership from Stockholm.</p>
+    <div class="foot-grid">
+      <div><h2>Services</h2><ul><li><a href="/">Advisory</a></li><li><a href="/studio">Studio</a></li><li><a href="/it-management">IT Governance</a></li><li><a href="https://portal.oakstride.se">Customer portal</a></li></ul></div>
+      <div><h2>Contact</h2><ul><li><a href="mailto:info@oakstride.se">info@oakstride.se</a></li><li><a href="tel:+46702371704">+46 70 237 17 04</a></li></ul></div>
+      <div><h2>Legal</h2><ul><li><a href="/privacy">Privacy &amp; cookies</a></li></ul></div>
+      <div><h2>Language</h2><ul><li><a href="/it-chef" lang="sv" hreflang="sv">Svenska</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>&copy; 2026 OakStride AB &middot; oakstride.se</span><a href="#top">Back to top &uarr;</a></div>
   </div>
 </footer>
+<!-- FOOTER:END -->
 
 <script>
 (function(){
@@ -398,14 +438,6 @@
 })();
 </script>
 <script src="/oak-analytics.js?v=4" defer></script>
-<script>
-(function(){
-  var nav=document.querySelector('.nav'); if(!nav) return;
-  var btn=nav.querySelector('.nav-toggle'); if(!btn) return;
-  function set(o){ nav.classList.toggle('open',o); btn.setAttribute('aria-expanded',o?'true':'false'); }
-  btn.addEventListener('click',function(){ set(!nav.classList.contains('open')); });
-  nav.querySelectorAll('nav.links a').forEach(function(a){ a.addEventListener('click',function(){ set(false); }); });
-})();
-</script>
+<script src="/site.js?v=2" defer onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

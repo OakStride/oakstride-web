@@ -313,25 +313,48 @@
     .nav-cross-label{display:block;width:100%;padding:12px 2px 2px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);border-top:1px solid rgba(0,0,0,.08)}
   }
 </style>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="/site.css?v=2">
 </head>
 <body>
 
-<header>
+<header class="site-header">
   <div class="wrap nav">
     <a class="logo" href="#top">Oak<span>Stride</span></a>
     <nav class="links" aria-label="Huvudmeny">
-      <a href="#services">Tjänster</a>
+      <div class="nav-item">
+        <a class="nav-trigger" href="#services" data-panel="nav-panel">Tjänster<span class="chev" aria-hidden="true"></span></a>
+        <div class="nav-panel" id="nav-panel">
+          <div class="nav-col">
+            <a class="nav-col-head" href="/sv">Advisory <span class="arrow">&rarr;</span></a>
+            <p>Interimsledarskap, digital- och AI-transformation, styrning och PMO.</p>
+            <a href="/sv#services">Vad vi gör</a>
+            <a href="/sv#about">Så arbetar vi</a>
+          </div>
+          <div class="nav-col">
+            <a class="nav-col-head" href="/webbstudio">Studio <span class="arrow">&rarr;</span></a>
+            <p>Webbplatser och webbutiker för mindre organisationer, lätta att driva.</p>
+            <a href="/webbstudio#arbete">Vårt arbete</a>
+            <a href="/webbstudio#sa-funkar-det">Så funkar det</a>
+          </div>
+          <div class="nav-col">
+            <a class="nav-col-head" href="/it-chef">IT Ledning <span class="arrow">&rarr;</span></a>
+            <p>IT-ledning på deltid för bolag med 1&ndash;50 anställda.</p>
+            <a href="/it-chef#tjansten">Tjänsten</a>
+            <a href="/it-chef#kontakt">Boka ett samtal</a>
+          </div>
+        </div>
+      </div>
       <a href="#about">Om oss</a>
       <a href="#contact">Kontakt</a>
-      <a href="/" lang="en">English</a>
-      <span class="nav-div" aria-hidden="true"></span>
-      <span class="nav-cross-label">Mer från OakStride</span>
-      <a href="/webbstudio" class="nav-cross">Studio <span class="arrow">&rarr;</span></a>
-      <a href="/it-chef" class="nav-cross">IT Ledning <span class="arrow">&rarr;</span></a>
+      <div class="nav-tools">
+        <span class="lang"><span class="lang-cur" aria-hidden="true">SV</span><span class="lang-sep" aria-hidden="true">/</span><a href="/" lang="en" hreflang="en" aria-label="English">EN</a></span>
+      </div>
     </nav>
-      <button class="nav-toggle" type="button" aria-label="Meny" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button class="nav-toggle" type="button" aria-label="Meny" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
+<div class="nav-scrim" hidden></div>
 
 <main id="top">
   <div class="hero">
@@ -348,16 +371,57 @@
       <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
     </svg>
     <div class="wrap">
-      <p class="eyebrow">OakStride · Konsult &amp; rådgivning</p>
-      <h1>Strategi är enkelt. Leverans är det svåra.</h1>
-      <p class="lead">OakStride är ett nordiskt konsult- och rådgivningsbolag som hjälper organisationer att omsätta digital- och AI-strategi i fungerande plattformar, produkter och operativmodeller — genom närvarande ledarskap, disciplinerad prioritering och teknikstyrning som håller.</p>
+      <p class="eyebrow">OakStride &middot; Konsult &amp; rådgivning</p>
+      <h1 class="rot-h1">
+        <span aria-hidden="true"><span class="rot-fixed">Från strategi till</span><span class="rot" data-rotator>
+          <span class="rot-word on">fungerande plattformar.</span>
+          <span class="rot-word">AI i drift.</span>
+          <span class="rot-word">styrning som håller.</span>
+        </span></span>
+        <span class="sr-only">Från strategi till fungerande plattformar, AI i drift och styrning som håller.</span>
+      </h1>
+      <p class="lead">Ett nordiskt konsult- och rådgivningsbolag inom digital-, AI- och teknikledning &mdash; nära leveransen, från första dagen.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#contact">Kontakta oss <span class="arrow">&rarr;</span></a>
-        <a class="btn btn-ghost" href="#services">Vad vi gör <span class="arrow arrow-d">&darr;</span></a>
+        <a class="btn btn-primary btn-pill" href="#contact">Kontakta oss <span class="arrow">&rarr;</span></a>
+        <a class="hero-scroll" href="#services" aria-label="Vad vi gör"><span class="arrow arrow-d" aria-hidden="true">&darr;</span></a>
       </div>
     </div>
   </div>
 
+  <section class="split" aria-labelledby="split-h">
+    <div class="wrap split-grid">
+      <div class="split-text">
+        <h2 id="split-h">Strategi är enkelt. Leverans är det svåra.</h2>
+        <p>OakStride är ett nordiskt konsult- och rådgivningsbolag som hjälper organisationer att omsätta digital- och AI-strategi i fungerande plattformar, produkter och operativmodeller &mdash; genom närvarande ledarskap, disciplinerad prioritering och teknikstyrning som håller.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="offers" aria-labelledby="offers-h">
+    <div class="wrap">
+      <h2 id="offers-h">Tre sätt vi hjälper till</h2>
+      <div class="offer-grid">
+        <article class="offer">
+          <figure class="photo"><img src="images/photo-2.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+          <h3>Advisory</h3>
+          <p>Interimsledarskap, digital- och AI-transformation, styrning och PMO för organisationer i förändring.</p>
+          <a class="pill" href="#services">Mer om Advisory <span class="arrow">&rarr;</span></a>
+        </article>
+        <article class="offer">
+          <figure class="photo"><img src="images/studio-team.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+          <h3>Studio</h3>
+          <p>Webbplatser och webbutiker för mindre organisationer, föreningar och lokala företag &mdash; lätta att driva.</p>
+          <a class="pill" href="/webbstudio">Mer om Studio <span class="arrow">&rarr;</span></a>
+        </article>
+        <article class="offer">
+          <figure class="photo"><img src="images/photo-7.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+          <h3>IT Ledning</h3>
+          <p>IT-ledning på deltid för bolag med 1&ndash;50 anställda, på ett fast antal timmar per månad.</p>
+          <a class="pill" href="/it-chef">Mer om IT Ledning <span class="arrow">&rarr;</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
   <section class="alt" id="services">
     <div class="wrap">
       <h2>Vad vi gör</h2>
@@ -460,7 +524,7 @@
     </div>
   </section>
 
-  <section class="alt" id="contact">
+  <section class="alt" id="contact" style="--contact-photo:url('/images/photo-3.jpg')">
     <div class="wrap">
       <h2>Kontakt</h2>
       <div class="contact-grid">
@@ -475,12 +539,21 @@
   </section>
 </main>
 
-<footer>
-  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-    <span>© 2026 OakStride</span>
-    <span><a href="/it-chef" style="color:inherit;">IT Ledning för mindre bolag</a> · <a href="/webbstudio" style="color:inherit;">Studio</a> · oakstride.se · <a href="/integritet" style="color:inherit;">Integritet &amp; cookies</a></span>
+<!-- FOOTER:START - samma block pa alla sex sidor, andra i alla -->
+<footer class="site-footer">
+  <div class="wrap">
+    <a class="foot-logo" href="/sv">Oak<span>Stride</span></a>
+    <p class="foot-tag">Rådgivning, webbstudio och IT-ledning från Stockholm.</p>
+    <div class="foot-grid">
+      <div><h2>Tjänster</h2><ul><li><a href="/sv">Advisory</a></li><li><a href="/webbstudio">Studio</a></li><li><a href="/it-chef">IT Ledning</a></li><li><a href="https://portal.oakstride.se">Kundportal</a></li></ul></div>
+      <div><h2>Kontakt</h2><ul><li><a href="mailto:info@oakstride.se">info@oakstride.se</a></li><li><a href="tel:+46702371704">+46 70 237 17 04</a></li></ul></div>
+      <div><h2>Juridik</h2><ul><li><a href="/integritet">Integritet &amp; cookies</a></li></ul></div>
+      <div><h2>Språk</h2><ul><li><a href="/" lang="en" hreflang="en">English</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>&copy; 2026 OakStride AB &middot; oakstride.se</span><a href="#top">Till toppen &uarr;</a></div>
   </div>
 </footer>
+<!-- FOOTER:END -->
 
 <script>
 (function(){
@@ -499,14 +572,6 @@
 })();
 </script>
 <script src="/oak-analytics.js?v=4" defer></script>
-<script>
-(function(){
-  var nav=document.querySelector('.nav'); if(!nav) return;
-  var btn=nav.querySelector('.nav-toggle'); if(!btn) return;
-  function set(o){ nav.classList.toggle('open',o); btn.setAttribute('aria-expanded',o?'true':'false'); }
-  btn.addEventListener('click',function(){ set(!nav.classList.contains('open')); });
-  nav.querySelectorAll('nav.links a').forEach(function(a){ a.addEventListener('click',function(){ set(false); }); });
-})();
-</script>
+<script src="/site.js?v=2" defer onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>
