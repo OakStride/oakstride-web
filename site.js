@@ -5,9 +5,13 @@
    3. Tjanster-panelen. I HTML ar triggern en vanlig lank till sidans tjansteavsnitt,
       sa menyn fungerar utan JS. Har forstarks den till en knapp med aria-expanded
       (klick, Enter/Space, Esc, klick utanfor, hover pa breda skarmar).
-   4. Roterande ord i heron: tva byten med 2 s mellanrum, sedan stannar det pa sista
-      ordet. Hela rorelsen ar klar inom 5 s (WCAG 2.2.2 utan pausknapp).
-   Rotationen startar aldrig vid prefers-reduced-motion. */
+   4. Roterande ord i heron: oandlig loop, ca 1,8 s per ord inklusive overgang.
+      Ingen pausknapp - Fredriks beslut 2026-10-29 och 2026-10-30 ("startsidan ska
+      rulla snabbare, nu ser det ut som den star still"). Det klarar INTE WCAG 2.2.2
+      (Pause, Stop, Hide) fullt ut. Mildringar: rotationen pausar nar fliken ar dold,
+      nar rubriken inte syns, vid hover over rubriken och nar fokus ar i heron; den
+      startar aldrig vid prefers-reduced-motion; utan JS star forsta ordet still; och
+      orden ar aria-hidden med en stilla sr-only-mening for skarmlasare. */
 (function () {
   var root = document.documentElement;
   root.classList.add('js'); // satts redan i <head>; har som reserv
@@ -132,17 +136,40 @@
     });
   }
 
-  // ---- 4. Roterande ord ----
+  // ---- 4. Roterande ord (oandlig loop, se huvudkommentaren) ----
+  var ROT_MS = 1800;
   Array.prototype.forEach.call(document.querySelectorAll('[data-rotator]'), function (rot) {
     var words = rot.querySelectorAll('.rot-word');
     if (words.length < 2 || reduce) return;
-    var i = 0;
-    var show = function (n) { words[i].classList.remove('on'); i = n; words[i].classList.add('on'); };
-    var step = function () {
-      if (i >= words.length - 1) return; // stannar pa sista ordet
-      show(i + 1);
-      if (i < words.length - 1) setTimeout(step, 2000);
+    var heading = rot.closest('h1') || rot;
+    var heroBox = rot.closest('.hero') || heading;
+    var i = 0, timer = null, inView = true, hovered = false, focused = false;
+    for (var k = 0; k < words.length; k++) { if (words[k].classList.contains('on')) i = k; }
+    var running = function () { return !document.hidden && inView && !hovered && !focused; };
+    var tick = function () {
+      timer = null;
+      if (!running()) return;
+      words[i].classList.remove('on');
+      i = (i + 1) % words.length;
+      words[i].classList.add('on');
+      timer = setTimeout(tick, ROT_MS);
     };
-    setTimeout(step, 2000);
+    var sync = function () {
+      if (running()) { if (!timer) timer = setTimeout(tick, ROT_MS); }
+      else if (timer) { clearTimeout(timer); timer = null; }
+    };
+    document.addEventListener('visibilitychange', sync);
+    heading.addEventListener('mouseenter', function () { hovered = true; sync(); });
+    heading.addEventListener('mouseleave', function () { hovered = false; sync(); });
+    heroBox.addEventListener('focusin', function () { focused = true; sync(); });
+    heroBox.addEventListener('focusout', function (e) {
+      if (!heroBox.contains(e.relatedTarget)) { focused = false; sync(); }
+    });
+    if (hasIO) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting; sync();
+      }, { threshold: 0 }).observe(heading);
+    }
+    sync();
   });
 })();

@@ -331,13 +331,13 @@ footer.site-footer {
 }
 .theme-copilot .hero h1 { max-width: 22ch; }
 .theme-copilot .hero::after {
+  /* v3: bara linjara lager (gar att mata exakt). Morkare uppe till vanster dar
+     eyebrow ligger, och morkt i botten dar h1 och ingress ligger. */
   background:
-    radial-gradient(ellipse at 88% 18%, rgba(47,122,229,.34), rgba(47,122,229,0) 46%),
-    radial-gradient(ellipse at 96% 78%, rgba(232,102,158,.26), rgba(232,102,158,0) 42%),
-    radial-gradient(ellipse at 62% 104%, rgba(244,181,68,.22), rgba(244,181,68,0) 40%),
-    linear-gradient(90deg, rgba(16,29,23,.62) 0%, rgba(16,29,23,.28) 60%, rgba(16,29,23,.1) 100%),
-    linear-gradient(180deg, rgba(16,29,23,.6) 0%, rgba(16,29,23,.5) 38%, rgba(16,29,23,.9) 100%);
+    linear-gradient(90deg, rgba(8,18,22,.74) 0%, rgba(8,18,22,.5) 45%, rgba(8,18,22,.12) 100%),
+    linear-gradient(180deg, rgba(8,18,22,.55) 0%, rgba(8,18,22,.45) 42%, rgba(8,18,22,.82) 100%);
 }
+.theme-copilot .hero .eyebrow { color: #dcebe4; }
 .theme-copilot .hero { border-bottom: 6px solid var(--cp-teal); border-image: var(--cp-grad) 1; }
 .theme-copilot section h2::after {
   content: ""; display: block; width: 72px; height: 4px; border-radius: 2px;
