@@ -101,7 +101,7 @@ html:not(.js) .nav-item:hover .nav-panel,
 html:not(.js) .nav-item:focus-within .nav-panel { display: grid; }
 /* Osynlig brygga over glappet mellan trigger och panel, sa att :hover inte slapper
    pa vagen ner nar JS saknas (granskare #35). */
-@media (min-width: 901px) { html:not(.js) .nav-panel::before { content: ""; position: absolute; left: 0; right: 0; top: -30px; height: 30px; } }
+@media (min-width: 901px) { html:not(.js) .nav-panel::before { content: ""; position: absolute; left: 0; right: 0; top: -22px; height: 22px; } }
 .nav-col { display: flex; flex-direction: column; gap: 8px; }
 .site-header .nav-panel a { color: var(--ink); text-decoration: none; font-size: .95rem; font-weight: 400; white-space: normal; }
 .site-header .nav-panel a:hover { color: var(--accent); }
