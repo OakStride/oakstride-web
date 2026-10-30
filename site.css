@@ -216,6 +216,8 @@ html:not(.js) .nav-item:focus-within .nav-panel { display: grid; }
    pastaenden. Tidigare stod allt i en spalt med en tom hoger halva dar talen skulle
    ha legat, och sektionen fick full luft bade over och under. */
 .split { padding-bottom: clamp(40px, 5vw, 64px); }
+/* Som eget fargat band (Copilot-sidan) behover sektionen samma luft under som over. */
+.split.alt { padding-bottom: clamp(72px, 10vw, 140px); }
 .split-grid { display: block; }
 .split + .offers { padding-top: clamp(56px, 7vw, 96px); }
 .split-text {
@@ -366,7 +368,8 @@ footer.site-footer {
 
 /* ---------- Copilot: exempel pa agenter (2026-10-30) ----------
    3 + 2 pa desktop (sex spalter, korten spanner 2 resp 3), tva spalter pa
-   mellanbredd, en spalt pa mobil. Kortstilen ar sidans vanliga .card. */
+   mellanbredd, en spalt pa mobil. Exemplen ar .agent-example utan kortram
+   (se avsnittet om robotarna nedan), inte sidans vanliga .card. */
 .agent-examples-head { margin: 64px 0 28px; max-width: 60ch; }
 .agent-examples-head h3 {
   font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(1.3rem, 2.2vw, 1.6rem);
@@ -394,8 +397,9 @@ footer.site-footer {
 
 /* ---------- Agentexemplen som robotar (2026-10-30, Fredrik) ----------
    Ingen kortram: exemplen star fritt mot sektionens bakgrund. Egen klass
-   .agent-example, sa ovriga .card pa sidan ar orords. Robotarna ar egna
-   inline-SVG (aria-hidden), en temafarg var. Rorelse bara vid no-preference. */
+   .agent-example, sa ovriga .card pa sidan ar orords. Robotarna ar AI-
+   genererade 3D-bilder (Gemini), WebP 512x512 med genomskinlig bakgrund,
+   dekorativa (alt=""). Hover-lyft bara vid no-preference. */
 .agent-examples { row-gap: 48px; column-gap: 40px; }
 .agent-example { padding: 0; background: none; border: 0; box-shadow: none; }
 .agent-example .tag {
@@ -403,16 +407,12 @@ footer.site-footer {
   text-transform: uppercase; color: var(--acorn); display: block; margin-bottom: 8px;
 }
 .agent-example p { font-size: 0.96rem; color: #3d443a; }
-.agent-example .robot { width: 64px; height: 64px; margin-bottom: 16px; line-height: 0; }
-.agent-example .robot svg { display: block; width: 64px; height: 64px; overflow: visible; }
-.theme-copilot .agent-example:nth-child(1) .robot { color: var(--cp-blue); }
-.theme-copilot .agent-example:nth-child(2) .robot { color: var(--cp-teal); }
-.theme-copilot .agent-example:nth-child(3) .robot { color: var(--cp-pink); }
-.theme-copilot .agent-example:nth-child(4) .robot { color: var(--cp-violet); }
-.theme-copilot .agent-example:nth-child(5) .robot { color: #e3a12f; }
+.agent-example .robot { width: 112px; height: 112px; margin: 0 0 12px -8px; line-height: 0; }
+.agent-example .robot img { display: block; width: 112px; height: 112px; }
+/* Skuggan ar inbakad ut till bildkanten pa fyra av fem bilder (granskare #41) - tona ut
+   hogerkanten i stallet for att lata den sluta i en rak linje. */
+.agent-example .robot img { -webkit-mask-image: linear-gradient(to right, #000 90%, transparent 100%); mask-image: linear-gradient(to right, #000 90%, transparent 100%); }
 @media (prefers-reduced-motion: no-preference) {
-  .agent-example .robot svg { transition: transform .3s ease; transform-origin: 50% 90%; }
-  .agent-example:hover .robot svg { transform: translateY(-3px) rotate(-4deg); }
-  .agent-example .wave { transform-origin: 43px 47px; transition: transform .3s ease; }
-  .agent-example:hover .wave { transform: rotate(-12deg); }
+  .agent-example .robot img { transition: transform .3s ease; transform-origin: 50% 90%; }
+  .agent-example:hover .robot img { transform: translateY(-4px) rotate(-3deg); }
 }

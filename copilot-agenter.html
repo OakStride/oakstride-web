@@ -238,7 +238,7 @@
   }
 </style>
 <script>document.documentElement.classList.add('js');</script>
-<link rel="stylesheet" href="/site.css?v=7">
+<link rel="stylesheet" href="/site.css?v=9">
 </head>
 <body class="theme-copilot">
 
@@ -301,12 +301,89 @@
       <p class="lead">För både större organisationer och mindre bolag. Vi gör införandet enkelt &mdash; med styrning, konfiguration, agentbygge, utbildning och löpande förvaltning, och med behörigheter och data under kontroll.</p>
       <div class="cta-row">
         <a class="btn btn-primary btn-pill" href="#kontakt">Boka ett samtal <span class="arrow">&rarr;</span></a>
-        <a class="hero-scroll" href="#tjansten" aria-label="Vad vi gör"><span class="arrow arrow-d" aria-hidden="true">&darr;</span></a>
+        <a class="hero-scroll" href="#igang" aria-label="Så kommer ni igång"><span class="arrow arrow-d" aria-hidden="true">&darr;</span></a>
       </div>
     </div>
   </div>
 
-  <section class="split" aria-labelledby="problem-h">
+  <section class="alt" id="igang" aria-labelledby="start-h">
+    <div class="wrap">
+      <h2 id="start-h">Så kommer ni igång</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="n">Steg 1</span>
+          <h3>Workshop</h3>
+          <p>Vi går igenom era mål, er Microsoft 365-miljö och var Copilot kan göra skillnad. Målet är att ni ska ha en prioriterad lista med användningsfall och en bild av vad som behöver vara på plats först &mdash; oavsett om ni fortsätter med oss.</p>
+        </div>
+        <div class="step">
+          <span class="n">Steg 2</span>
+          <h3>Förberedelse och pilot</h3>
+          <p>Vi går igenom behörigheter och delning, sätter riktlinjerna och kör en avgränsad pilot med en mindre grupp. Ni ser vad som fungerar innan fler licenser köps.</p>
+        </div>
+        <div class="step">
+          <span class="n">Steg 3</span>
+          <h3>Utrullning och löpande förvaltning</h3>
+          <p>Vi breddar till fler användare, utbildar, följer upp och sköter den löpande förvaltningen. Behovet av egna agenter blir tydligt här, och då bygger vi dem på en grund som redan håller.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="agents-h">
+    <div class="wrap">
+      <div class="split-text">
+        <h2 id="agents-h">Agenter som gör jobbet</h2>
+        <div class="split-body">
+          <p>En agent är mer än en chattbot. Den kan hämta svar ur era egna dokument, följa ett flöde i flera steg och utföra uppgifter i de system ni redan använder. Vi börjar med en avgränsad uppgift där nyttan går att mäta, bygger agenten i Copilot Studio, testar den med de som ska använda den och sätter den i drift med ägare, behörigheter och uppföljning på plats.</p>
+          <p>Vi arbetar själva med AI-agenter varje dag. Därför vet vi var de är starka, var de behöver gränser och vad som krävs för att förvalta dem.</p>
+        </div>
+      </div>
+      <figure class="photo photo-wide cp-photo"><img src="images/copilot-agentflode.webp" alt="" width="1344" height="768" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+      <div class="agent-examples-head">
+        <h3 id="agent-examples-h">Exempel på agenter vi kan bygga</h3>
+        <p>Några exempel på uppgifter en agent kan ta hand om. Varje agent byggs efter era behov. Agenten tar fram underlag och förslag, och besluten fattas av en person hos er.</p>
+      </div>
+      <div class="agent-examples" aria-labelledby="agent-examples-h">
+        <div class="agent-example">
+          <div class="robot"><img src="/images/agents/avtalsbevakaren.webp" alt="" width="512" height="512" loading="lazy"></div>
+          <span class="tag">Avtal</span>
+          <h4>Avtalsbevakaren</h4>
+          <p>Håller koll på avtal, förfallodatum, uppsägningstider och förlängningar, påminner ansvarig i god tid och visar vad som står i ett avtal, med hänvisning till källan. Ansvarig tolkar och beslutar om nästa steg.</p>
+          <p class="sources">Källor: SharePoint, Outlook, Teams</p>
+        </div>
+        <div class="agent-example">
+          <div class="robot"><img src="/images/agents/ideinsamlaren.webp" alt="" width="512" height="512" loading="lazy"></div>
+          <span class="tag">Idéer</span>
+          <h4>Idéinsamlaren</h4>
+          <p>Samlar in medarbetarnas förslag på nya agenter och automatiseringar, ställer följdfrågor och sorterar och sammanfattar dem till en prioriterad lista som ni beslutar om.</p>
+          <p class="sources">Källor: Teams, SharePoint, Excel</p>
+        </div>
+        <div class="agent-example">
+          <div class="robot"><img src="/images/agents/manadsrapportoren.webp" alt="" width="512" height="512" loading="lazy"></div>
+          <span class="tag">Rapportering</span>
+          <h4>Månadsrapportören</h4>
+          <p>Sätter ihop månadsrapporten per domän eller service area från befintliga källor, och lyfter avvikelser och trender i ett första utkast som ansvarig granskar.</p>
+          <p class="sources">Källor: Excel, SharePoint, Teams</p>
+        </div>
+        <div class="agent-example">
+          <div class="robot"><img src="/images/agents/introduktionsguiden.webp" alt="" width="512" height="512" loading="lazy"></div>
+          <span class="tag">Introduktion</span>
+          <h4>Introduktionsguiden</h4>
+          <p>Hjälper nya medarbetare att hitta rutiner, kontakter och svar på vanliga frågor i ert eget material, och hänvisar till en kollega när svaret inte finns där. Materialet ägs och hålls aktuellt av en utsedd person hos er, som också ser vilka frågor som ställs.</p>
+          <p class="sources">Källor: SharePoint, Teams</p>
+        </div>
+        <div class="agent-example">
+          <div class="robot"><img src="/images/agents/arendesorteraren.webp" alt="" width="512" height="512" loading="lazy"></div>
+          <span class="tag">Ärenden</span>
+          <h4>Ärendesorteraren</h4>
+          <p>Läser in inkommande ärenden eller mejl till en gemensam brevlåda, sorterar dem och föreslår både svar och vilken grupp ärendet ska till. En person godkänner innan något skickas eller förs vidare.</p>
+          <p class="sources">Källor: Outlook, Teams</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="split alt" aria-labelledby="problem-h">
     <div class="wrap split-grid">
       <div class="split-text">
         <h2 id="problem-h">Licensen är det lätta.</h2>
@@ -315,7 +392,7 @@
     </div>
   </section>
 
-  <section class="alt" id="tjansten">
+  <section id="tjansten">
     <div class="wrap">
       <h2>Vad vi gör inom Copilot &amp; agenter</h2>
       <p class="section-intro">Vi ger råd, konfigurerar i er miljö, designar och bygger agenter och håller utbildningar. Vi tar er från första frågan till ett införande som används och håller &mdash; och vidare till agenter när grunden finns.</p>
@@ -360,29 +437,6 @@
     </div>
   </section>
 
-  <section>
-    <div class="wrap">
-      <h2>Så kommer ni igång</h2>
-      <div class="steps">
-        <div class="step">
-          <span class="n">Steg 1</span>
-          <h3>Workshop</h3>
-          <p>Vi går igenom era mål, er Microsoft 365-miljö och var Copilot kan göra skillnad. Målet är att ni ska ha en prioriterad lista med användningsfall och en bild av vad som behöver vara på plats först &mdash; oavsett om ni fortsätter med oss.</p>
-        </div>
-        <div class="step">
-          <span class="n">Steg 2</span>
-          <h3>Förberedelse och pilot</h3>
-          <p>Vi går igenom behörigheter och delning, sätter riktlinjerna och kör en avgränsad pilot med en mindre grupp. Ni ser vad som fungerar innan fler licenser köps.</p>
-        </div>
-        <div class="step">
-          <span class="n">Steg 3</span>
-          <h3>Utrullning och löpande förvaltning</h3>
-          <p>Vi breddar till fler användare, utbildar, följer upp och sköter den löpande förvaltningen. Behovet av egna agenter blir tydligt här, och då bygger vi dem på en grund som redan håller.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="alt">
     <div class="wrap">
       <h2>Kontroll först, fart sedan</h2>
@@ -400,68 +454,14 @@
     </div>
   </section>
 
-  <section aria-labelledby="agents-h">
-    <div class="wrap">
-      <div class="split-text">
-        <h2 id="agents-h">Agenter som gör jobbet</h2>
-        <div class="split-body">
-          <p>En agent är mer än en chattbot. Den kan hämta svar ur era egna dokument, följa ett flöde i flera steg och utföra uppgifter i de system ni redan använder. Vi börjar med en avgränsad uppgift där nyttan går att mäta, bygger agenten i Copilot Studio, testar den med de som ska använda den och sätter den i drift med ägare, behörigheter och uppföljning på plats.</p>
-          <p>Vi arbetar själva med AI-agenter varje dag. Därför vet vi var de är starka, var de behöver gränser och vad som krävs för att förvalta dem.</p>
-        </div>
-      </div>
-      <figure class="photo photo-wide cp-photo"><img src="images/copilot-agentflode.webp" alt="" width="1344" height="768" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
-      <div class="agent-examples-head">
-        <h3 id="agent-examples-h">Exempel på agenter vi kan bygga</h3>
-        <p>Några exempel på uppgifter en agent kan ta hand om. Varje agent byggs efter era behov. Agenten tar fram underlag och förslag, och besluten fattas av en person hos er.</p>
-      </div>
-      <div class="agent-examples" aria-labelledby="agent-examples-h">
-        <div class="agent-example">
-          <div class="robot"><svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><line x1="32" y1="5" x2="32" y2="13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="5" r="3.5" fill="currentColor"/><rect x="10" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="49" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="14" y="13" width="36" height="26" rx="11" fill="currentColor"/><rect x="19" y="18" width="26" height="16" rx="8" fill="#fff"/><g class="eyes"><circle cx="27" cy="25" r="2.6" fill="#21261f"/><circle cx="37" cy="25" r="2.6" fill="#21261f"/></g><path d="M28 30q4 3 8 0" fill="none" stroke="#21261f" stroke-width="2" stroke-linecap="round"/><rect x="20" y="41" width="24" height="18" rx="8" fill="currentColor"/><rect x="26" y="44" width="12" height="12" rx="1.5" fill="#fff"/><path d="M28.5 48h7M28.5 51.5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="51" cy="46" r="6" fill="#fff" stroke="#21261f" stroke-width="2.5"/><path d="M55.5 50.5l5 5" stroke="#21261f" stroke-width="3" stroke-linecap="round"/></svg></div>
-          <span class="tag">Avtal</span>
-          <h4>Avtalsbevakaren</h4>
-          <p>Håller koll på avtal, förfallodatum, uppsägningstider och förlängningar, påminner ansvarig i god tid och visar vad som står i ett avtal, med hänvisning till källan. Ansvarig tolkar och beslutar om nästa steg.</p>
-          <p class="sources">Källor: SharePoint, Outlook, Teams</p>
-        </div>
-        <div class="agent-example">
-          <div class="robot"><svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><line x1="32" y1="5" x2="32" y2="13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="5" r="3.5" fill="currentColor"/><rect x="10" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="49" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="14" y="13" width="36" height="26" rx="11" fill="currentColor"/><rect x="19" y="18" width="26" height="16" rx="8" fill="#fff"/><g class="eyes"><circle cx="27" cy="25" r="2.6" fill="#21261f"/><circle cx="37" cy="25" r="2.6" fill="#21261f"/></g><path d="M28 30q4 3 8 0" fill="none" stroke="#21261f" stroke-width="2" stroke-linecap="round"/><rect x="20" y="41" width="24" height="18" rx="8" fill="currentColor"/><g class="bulb"><path d="M52 2.5v0M44.5 5.5l1.5 1.5M59.5 5.5l-1.5 1.5" stroke="#f4b544" stroke-width="2" stroke-linecap="round"/><circle cx="52" cy="13" r="6" fill="#f4b544"/><rect x="49.5" y="18.5" width="5" height="4" rx="1.2" fill="#21261f"/></g></svg></div>
-          <span class="tag">Idéer</span>
-          <h4>Idéinsamlaren</h4>
-          <p>Samlar in medarbetarnas förslag på nya agenter och automatiseringar, ställer följdfrågor och sorterar och sammanfattar dem till en prioriterad lista som ni beslutar om.</p>
-          <p class="sources">Källor: Teams, SharePoint, Excel</p>
-        </div>
-        <div class="agent-example">
-          <div class="robot"><svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><line x1="32" y1="5" x2="32" y2="13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="5" r="3.5" fill="currentColor"/><rect x="10" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="49" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="14" y="13" width="36" height="26" rx="11" fill="currentColor"/><rect x="19" y="18" width="26" height="16" rx="8" fill="#fff"/><g class="eyes"><circle cx="27" cy="25" r="2.6" fill="#21261f"/><circle cx="37" cy="25" r="2.6" fill="#21261f"/></g><path d="M28 30q4 3 8 0" fill="none" stroke="#21261f" stroke-width="2" stroke-linecap="round"/><rect x="20" y="41" width="24" height="18" rx="8" fill="currentColor"/><rect x="25" y="50" width="4" height="6" rx="1" fill="#fff"/><rect x="30" y="47" width="4" height="9" rx="1" fill="#fff"/><rect x="35" y="44" width="4" height="12" rx="1" fill="#fff"/></svg></div>
-          <span class="tag">Rapportering</span>
-          <h4>Månadsrapportören</h4>
-          <p>Sätter ihop månadsrapporten per domän eller service area från befintliga källor, och lyfter avvikelser och trender i ett första utkast som ansvarig granskar.</p>
-          <p class="sources">Källor: Excel, SharePoint, Teams</p>
-        </div>
-        <div class="agent-example">
-          <div class="robot"><svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><line x1="32" y1="5" x2="32" y2="13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="5" r="3.5" fill="currentColor"/><rect x="10" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="49" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="14" y="13" width="36" height="26" rx="11" fill="currentColor"/><rect x="19" y="18" width="26" height="16" rx="8" fill="#fff"/><g class="eyes"><circle cx="27" cy="25" r="2.6" fill="#21261f"/><circle cx="37" cy="25" r="2.6" fill="#21261f"/></g><path d="M28 30q4 3 8 0" fill="none" stroke="#21261f" stroke-width="2" stroke-linecap="round"/><rect x="20" y="41" width="24" height="18" rx="8" fill="currentColor"/><g class="wave"><path d="M43 47q9-3 11-14" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="54.5" cy="31" r="4.5" fill="currentColor"/></g></svg></div>
-          <span class="tag">Introduktion</span>
-          <h4>Introduktionsguiden</h4>
-          <p>Hjälper nya medarbetare att hitta rutiner, kontakter och svar på vanliga frågor i ert eget material, och hänvisar till en kollega när svaret inte finns där. Materialet ägs och hålls aktuellt av en utsedd person hos er, som också ser vilka frågor som ställs.</p>
-          <p class="sources">Källor: SharePoint, Teams</p>
-        </div>
-        <div class="agent-example">
-          <div class="robot"><svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><line x1="32" y1="5" x2="32" y2="13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="5" r="3.5" fill="currentColor"/><rect x="10" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="49" y="22" width="5" height="9" rx="2.5" fill="currentColor"/><rect x="14" y="13" width="36" height="26" rx="11" fill="currentColor"/><rect x="19" y="18" width="26" height="16" rx="8" fill="#fff"/><g class="eyes"><circle cx="27" cy="25" r="2.6" fill="#21261f"/><circle cx="37" cy="25" r="2.6" fill="#21261f"/></g><path d="M28 30q4 3 8 0" fill="none" stroke="#21261f" stroke-width="2" stroke-linecap="round"/><rect x="20" y="41" width="24" height="18" rx="8" fill="currentColor"/><rect x="24" y="44.5" width="16" height="11" rx="2" fill="#fff"/><path d="M25 46l7 5.2 7-5.2" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg></div>
-          <span class="tag">Ärenden</span>
-          <h4>Ärendesorteraren</h4>
-          <p>Läser in inkommande ärenden eller mejl till en gemensam brevlåda, sorterar dem och föreslår både svar och vilken grupp ärendet ska till. En person godkänner innan något skickas eller förs vidare.</p>
-          <p class="sources">Källor: Outlook, Teams</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="alt">
+  <section>
     <div class="wrap">
       <h2>Oberoende, med erfarenhet</h2>
       <p class="section-intro">Vi har erfarenhet från större organisationer, och erbjudandet gäller både större organisationer och mindre bolag. Vi är oberoende: vi säljer inga licenser, men vi ger råd om vilka licenser ni behöver och har inget intresse av att ni köper fler än så.</p>
     </div>
   </section>
 
-  <section aria-labelledby="faq-h">
+  <section class="alt" aria-labelledby="faq-h">
     <div class="wrap">
       <h2 id="faq-h">Vanliga frågor</h2>
       <div class="faq">
