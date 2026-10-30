@@ -87,8 +87,14 @@ header.site-header {
 }
 .nav-trigger[aria-expanded="true"] .chev { transform: translateY(1px) rotate(-135deg); }
 
+/* Panelen ar FAST mot fonstret, direkt under den uppmatta headern, och har ett eget
+   z-index over scrimen. Tidigare var den absolut inne i headern och berodde helt pa
+   headerns staplingskontext: tappade headern den (fast position hos en helsidesfangst
+   eller liknande) hamnade panelen under scrimen och utanfor bild (Fredriks
+   skarmdump 2026-10-30). */
 .nav-panel {
-  position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+  position: fixed; top: calc(var(--header-h) + 10px); left: 50%; transform: translateX(-50%);
+  z-index: 45; max-height: calc(100vh - var(--header-h) - 24px); overflow-y: auto;
   width: min(1100px, calc(100vw - 32px));
   background: #ffffff; color: var(--ink); border-radius: 16px;
   box-shadow: 0 24px 60px rgba(20,30,25,.22);
@@ -159,6 +165,7 @@ html:not(.js) .nav-item:focus-within .nav-panel { display: grid; }
   .site-header .lang a { padding: 0; font-size: .95rem; }
   .site-header .nav-tools .pill { padding: 8px 18px; font-size: .95rem; border: 1px solid var(--ink); }
   .nav-scrim { display: none !important; }
+  .nav-panel { max-height: none; overflow: visible; }
   html:not(.js) header.site-header { position: relative; }
   html:not(.js) .hero { padding-top: 72px; }
   html:not(.js) .site-header .nav-toggle { display: none; }
@@ -202,10 +209,19 @@ html:not(.js) .nav-item:focus-within .nav-panel { display: grid; }
 }
 
 /* ---------- Forslag 9: pastaende och tre erbjudanden (talen stroks av Fredrik 2026-10-30) ---------- */
-.split-grid { display: flex; gap: 72px; align-items: flex-start; }
-.split-text { flex: 1 1 0; }
-.split-text h2 { max-width: 18ch; }
-.split-text p { max-width: 62ch; font-size: 1.12rem; color: #3d443a; }
+/* Pastaendet till vanster, brodtexten till hoger - samma befintliga text, inga nya
+   pastaenden. Tidigare stod allt i en spalt med en tom hoger halva dar talen skulle
+   ha legat, och sektionen fick full luft bade over och under. */
+.split { padding-bottom: clamp(40px, 5vw, 64px); }
+.split-grid { display: block; }
+.split + .offers { padding-top: clamp(56px, 7vw, 96px); }
+.split-text {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 88px); align-items: end;
+}
+.split-text h2 { max-width: none; margin-bottom: 0; text-wrap: balance; }
+.split-text p { max-width: 52ch; font-size: 1.12rem; color: #3d443a; margin: 0; }
+@media (max-width: 860px) { .split-text { grid-template-columns: 1fr; gap: 20px; } }
 .fact .num {
   margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600;
   font-size: clamp(2rem, 3.4vw, 2.8rem); line-height: 1; letter-spacing: -0.03em; color: var(--accent);
