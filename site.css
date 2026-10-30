@@ -318,3 +318,48 @@ footer.site-footer {
   .card-link .arrow { display: inline-block; transition: transform .2s ease; }
   .card-link:hover .arrow, .card-link:focus-visible .arrow { transform: translateX(3px); }
 }
+
+/* ---------- Tema for copilot-agents/-agenter (2026-10-30, Fredrik: "mer farger") ----------
+   Egen gradient med liknande fargkansla som Copilot-paletten - INGEN logotyp, ikon eller
+   logotypform. Galler bara <body class="theme-copilot">; resten av sajten ar orord.
+   Gradientfargerna ar dekor (linjer, kanter, ljus) och bar aldrig text. Textfargerna
+   (--cp-*-ink) ar uppmatta mot #fdfdfb/#f5f7f6/#ffffff: alla >= 5.3:1 (WCAG AA). */
+.theme-copilot {
+  --cp-blue: #2f7ae5; --cp-teal: #1fb5a8; --cp-amber: #f4b544; --cp-pink: #e8669e; --cp-violet: #8a63e0;
+  --cp-grad: linear-gradient(90deg, var(--cp-blue), var(--cp-teal) 32%, var(--cp-amber) 62%, var(--cp-pink) 82%, var(--cp-violet));
+  --cp-blue-ink: #1f5fbf; --cp-teal-ink: #0b736c; --cp-amber-ink: #8a5300; --cp-pink-ink: #b02e6e; --cp-violet-ink: #5b3fc0;
+}
+.theme-copilot .hero h1 { max-width: 22ch; }
+.theme-copilot .hero::after {
+  background:
+    radial-gradient(ellipse at 88% 18%, rgba(47,122,229,.34), rgba(47,122,229,0) 46%),
+    radial-gradient(ellipse at 96% 78%, rgba(232,102,158,.26), rgba(232,102,158,0) 42%),
+    radial-gradient(ellipse at 62% 104%, rgba(244,181,68,.22), rgba(244,181,68,0) 40%),
+    linear-gradient(90deg, rgba(16,29,23,.62) 0%, rgba(16,29,23,.28) 60%, rgba(16,29,23,.1) 100%),
+    linear-gradient(180deg, rgba(16,29,23,.6) 0%, rgba(16,29,23,.5) 38%, rgba(16,29,23,.9) 100%);
+}
+.theme-copilot .hero { border-bottom: 6px solid var(--cp-teal); border-image: var(--cp-grad) 1; }
+.theme-copilot section h2::after {
+  content: ""; display: block; width: 72px; height: 4px; border-radius: 2px;
+  background: var(--cp-grad); margin-top: 14px;
+}
+.theme-copilot #kontakt h2::after { background: rgba(255,255,255,.85); }
+.theme-copilot .card { position: relative; overflow: hidden; }
+.theme-copilot .card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--cp-grad); }
+.theme-copilot .grid2 .card:nth-child(4n+1) .tag { color: var(--cp-blue-ink); }
+.theme-copilot .grid2 .card:nth-child(4n+2) .tag { color: var(--cp-teal-ink); }
+.theme-copilot .grid2 .card:nth-child(4n+3) .tag { color: var(--cp-pink-ink); }
+.theme-copilot .grid2 .card:nth-child(4n+4) .tag { color: var(--cp-violet-ink); }
+.theme-copilot .card ul li::before { border-color: var(--cp-teal); }
+.theme-copilot .step:nth-child(1) { border-left-color: var(--cp-blue); }
+.theme-copilot .step:nth-child(2) { border-left-color: var(--cp-teal); }
+.theme-copilot .step:nth-child(3) { border-left-color: var(--cp-pink); }
+.theme-copilot .step .n { color: var(--cp-violet-ink); }
+.theme-copilot .faq summary::after { color: var(--cp-violet-ink); }
+.theme-copilot .faq details[open] { border-color: var(--cp-violet); }
+.theme-copilot .photo img { filter: none; }
+.theme-copilot .cp-photo { margin: 44px 0 0; }
+.theme-copilot .cp-photo img { height: clamp(220px, 30vw, 380px); }
+/* Kontaktfaltet: gradient i morka toner sa att vit text haller AA i varje punkt
+   (#1f5fbf 6.1:1, #0e6b66 6.3:1, #5b3fc0 7.2:1 mot vitt). */
+.theme-copilot #kontakt { background: linear-gradient(120deg, #1f5fbf 0%, #0e6b66 48%, #5b3fc0 100%); }
