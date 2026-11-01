@@ -1,0 +1,25 @@
+# OakStride
+
+> OakStride is a Nordic consulting and advisory firm based in Stockholm, Sweden, helping organizations turn digital and AI strategy into delivery — through interim leadership, transformation and technology governance. OakStride also runs a web studio, part-time IT leadership for smaller companies, and Copilot and agent rollouts. OakStride is independent and does not sell licences.
+
+The site is available in English and Swedish (svenska).
+
+## Services (English)
+
+- [Consulting & Advisory](https://oakstride.se/): Interim technology leadership, digital and AI strategy and transformation, technology and vendor governance, PMO and operational excellence.
+- [Copilot & agents](https://oakstride.se/copilot-agents): We make it simple to roll out Copilot agents across your organisation, with governance, configuration, agent building, training and ongoing management.
+- [IT Governance](https://oakstride.se/it-management): Experienced part-time IT support for smaller companies — strategy, budget, security and vendor management, without the cost of a full-time IT manager.
+- [OakStride Studio](https://oakstride.se/studio): Designs, builds and cares for websites and online shops for small organisations, clubs and local businesses.
+
+## Tjänster (svenska)
+
+- [Konsult & rådgivning](https://oakstride.se/sv): Konsult- och rådgivningsbolag som hjälper organisationer att omsätta digital- och AI-strategi i leverans — genom interimledarskap, transformation och teknikstyrning.
+- [Copilot & agenter](https://oakstride.se/copilot-agenter): Vi gör det enkelt att rulla ut Copilot-agenter i er organisation — med styrning, konfiguration, agentbygge, utbildning och löpande förvaltning.
+- [IT Ledning](https://oakstride.se/it-chef): Erfaret IT-stöd på deltid för mindre bolag — strategi, budget, säkerhet och leverantörsstyrning, utan kostnaden för en heltidsanställd IT-chef.
+- [OakStride Studio](https://oakstride.se/webbstudio): Designar, bygger och sköter webbplatser och webbutiker för mindre organisationer, föreningar och lokala företag.
+
+## Contact
+
+- Email: info@oakstride.se
+- Phone: +46 70 237 17 04
+- Location: Stockholm, Sweden
